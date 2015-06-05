@@ -1,0 +1,128 @@
+﻿@model DozorWeb.Models.AttendanciesPageViewModel
+
+@section Scripts
+{
+<script>
+    function FillStudents() {
+        var gradeId = $('#SelectedGradeId').val();
+        $.ajax({
+            url: '/Attendance/GetStudents',
+            type: "GET",
+            dataType: "JSON",
+            data: { gradeId: gradeId },
+            success: function (students) {
+                $("#SelectedStudentId").html("");
+                $.each(students, function (i, student) {
+                    $("#SelectedStudentId").append(
+                        $('<option></option>').val(student.StudentId).html(student.Name));
+                });
+            }
+        });
+    }
+
+    $(function () {
+        $('.datepicker').datepicker();
+    });
+
+    function FillAttendancies() {
+        var studentId = $('#SelectedStudentId').val();
+        var attendanciesDateTime = $('#AttendanciesDateTime').datepicker({ dateFormat: 'mm-dd-yy' }).val();
+        $("#tbAttendancies").html("");
+        var tableHeaders = '<th align="center"  width="30%">' + "Время посещения" + '</th>' +
+                           '<th align="center" width="30%">' + "Тип" + '</th>' +
+                           '<th align="center" width="40%">' + "Снимок с камеры" + '</th>';
+        $('#tbAttendancies').append(tableHeaders);
+        $.ajax({
+            url: '/Attendance/GetAttendancies',
+            type: "GET",
+            dataType: "JSON",
+            data: { studentId: studentId, attendanciesDateTime: attendanciesDateTime },
+            success: function (attendancies) {               
+                $.each(attendancies, function (i, attendance) {
+                    var attendanceRow = '<tr><td align="center" width="30%">' + attendance.AttendanceTime + '</td>' +
+                                            '<td align="center" width="30%">' + attendance.Direction + '</td>' +
+                                            '<td  width="40%">' + '<img  width="80%" src="data:image;base64,' + attendance.Snapshot + '" />' + '</td>'
+                                        '</tr>';
+                    $('#tbAttendancies').append(attendanceRow);
+                });
+            }
+        });
+    }
+</script>
+}
+
+@{
+    ViewBag.Title = "Страница посещений";
+}
+
+<h3>@ViewBag.Title</h3>
+
+
+
+@*@using (Html.BeginForm("GetAttendancies", "Attendance", FormMethod.Post))
+{*@
+    <div class="form-group">
+        <br />
+        @Html.Label("Класс", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.SelectedGradeId,
+                              Model.Grades,
+                              "Выберите класс",
+                              new
+                              {
+                                  @class = "form-control",
+                                  @onchange = "FillStudents()"
+                              })
+            @Html.ValidationMessageFor(m => m.SelectedGradeId, "", new { @class = "text-danger" })
+        </div>
+        <br />
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Студент", new { @class = "control-label col-md-2" })
+        <br>
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.SelectedStudentId,
+                              Model.Students,
+                              "Выберите студента",
+                              new 
+                              { 
+                                  @class = "form-control"
+                              })
+            @Html.ValidationMessageFor(m => m.SelectedStudentId, "", new { @class = "text-danger" })
+        </div>
+        <br />
+    </div>
+
+    <div class="form-group input-group-sm">
+        <br />
+        @Html.Label("Выберите дату для просмотра посещений:", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.AttendanciesDateTime, new { @class = "form-control datepicker", placeholder = "Введите дату здесь..." })
+            @Html.ValidationMessageFor(model => model.AttendanciesDateTime)
+        </div>
+    </div>    
+    
+    <div class="col-md-10">
+        <br />
+        <button name="submitButton" class="btn btn-primary" value="submit" onclick="javascript:FillAttendancies();">Просмотреть посещения</button>
+    </div>    
+    
+    <div class="col-md-10">
+        <br />
+        <br />
+        <table id="tbAttendancies" class="table-bordered" align="center">
+            <tr>
+                <th align="center" width="30%">
+                    Время посещения
+                </th>
+                <th align="center" width="30%">
+                    Тип
+                </th>
+                <th align="center" width="40%">
+                    Снимок с камеры
+                </th>
+            </tr>
+        </table>
+    </div>
+@*}*@

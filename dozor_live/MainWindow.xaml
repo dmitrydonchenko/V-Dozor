@@ -1,0 +1,17 @@
+﻿<Window x:Class="dozor_live.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
+        xmlns:view_models="clr-namespace:dozor_live.ViewModels"
+        xmlns:views="clr-namespace:dozor_live.Views"
+        Title="Votum Dozor" Height="350" Width="525"
+        WindowStartupLocation="CenterScreen" WindowState="Maximized">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type view_models:StudentsViewModel}">
+            <views:StudentView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type view_models:DefaultViewModel}">
+            <views:DefaultView />
+        </DataTemplate>
+    </Window.Resources>
+    <ContentControl Content="{Binding CurrentPageViewModel}" />
+</Window>

@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="DozorDbManagement.Views.StudentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:view_models="clr-namespace:DozorDbManagement.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="300">
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type view_models:StudentsViewModel}"/>
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <GroupBox Grid.Row="0" Grid.Column="0" Header="Данные ученика" TextBlock.FontSize="14">
+            <StackPanel>
+                <Label Content="Имя" TextBlock.FontSize="14" ></Label>
+                <TextBox Text="{Binding SelectedStudent.FirstName}" TextBlock.FontSize="14" ></TextBox>
+                <Label Content="Отчество" TextBlock.FontSize="14" ></Label>
+                <TextBox Text="{Binding SelectedStudent.MiddleName}" TextBlock.FontSize="14" ></TextBox>
+                <Label Content="Фамилия" TextBlock.FontSize="14" ></Label>
+                <TextBox Text="{Binding SelectedStudent.LastName}" TextBlock.FontSize="14" ></TextBox>
+                <Label Content="Класс" TextBlock.FontSize="14" ></Label>
+                <ComboBox ItemsSource="{Binding Grades}"
+                                        DisplayMemberPath="Grade"
+                                        SelectedValuePath="GradeId"
+                                        SelectedValue="{Binding SelectedStudent.GradeId}" />
+                <Label Content="RFID" TextBlock.FontSize="14" ></Label>
+                <TextBox Text="{Binding SelectedStudent.Rfid}" TextBlock.FontSize="14" IsEnabled="False"></TextBox>
+            </StackPanel>
+        </GroupBox>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="7*"></ColumnDefinition>
+                <ColumnDefinition Width="4*"></ColumnDefinition>
+                <ColumnDefinition Width="4*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Row="0" Grid.Column="1" Content="Ok" TextBlock.FontSize="14" 
+                    Command="{Binding Path=StudentDbRequestCommand}"></Button>
+            <Button Grid.Row="0" Grid.Column="2" Content="Отмена" TextBlock.FontSize="14"
+                    Command="{Binding Path=GoToDefaultViewCommand}"></Button>
+        </Grid>       
+    </Grid>
+</UserControl>

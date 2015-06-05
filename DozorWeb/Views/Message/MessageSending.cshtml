@@ -1,0 +1,30 @@
+﻿@model DozorWeb.Models.MessageSendingViewModel
+
+@{
+    ViewBag.Title = "Страница сообщений";
+}
+
+<h3>Отправка сообщений</h3>
+
+@using (@Html.BeginForm("MessageSending", "Message", FormMethod.Get, new { @class = "form-horizontal", @role = "form" }))
+{
+    <div class="col-sm-2">
+        Выберите класс:
+        @Html.DropDownList("gradeId", Model.Grades, new { @class = "form-control", onchange = "$(this.form).submit();" })
+        <br />
+        Выберите студента:
+        @Html.DropDownList("studentId", Model.Students, "Выберите студента", new { @class = "form-control" })
+        <br />
+        Актуальность сообщения(в днях):
+        <br />
+        <input name="duration" type="number" /> 
+        <br />
+        <br />
+        Текст сообщения:
+        <br />
+        @Html.TextArea("MessageText", "", 5, 100, new { @class = "message-area" })
+        <br />
+        <button name="button" class="btn btn-primary" value="submit">Отправить</button>
+        <br />
+    </div>
+}

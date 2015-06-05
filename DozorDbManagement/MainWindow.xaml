@@ -1,0 +1,42 @@
+﻿<Window x:Class="DozorDbManagement.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:view_models="clr-namespace:DozorDbManagement.ViewModels"
+        xmlns:views="clr-namespace:DozorDbManagement.Views"
+        Title="База данных Votum Dozor" Height="450" Width="525">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type view_models:ApplicationViewModel}">
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type view_models:StudentsViewModel}">
+            <views:StudentView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type view_models:StudentUpdateViewModel}">
+            <views:StudentUpdateView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type view_models:DefaultViewModel}">
+            <views:DefaultView />
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0" Grid.Column="0">
+            <MenuItem Header="Ученики" TextBlock.FontSize="14">
+                <MenuItem Header="Добавить ученика" Command="{Binding Path=AddStudentCommand}"></MenuItem>
+                <MenuItem Header="Изменить ученика" Command="{Binding Path=UpdateStudentCommand}"></MenuItem>
+                <MenuItem Header="Удалить ученика"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Классы" TextBlock.FontSize="14">
+                <MenuItem Header="Добавить класс"></MenuItem>
+                <MenuItem Header="Изменить название"></MenuItem>
+                <MenuItem Header="Удалить класс"></MenuItem>
+            </MenuItem>
+        </Menu>
+        <ContentControl Grid.Row="1" Grid.Column="0" Content="{Binding CurrentPageViewModel}" />
+    </Grid>   
+</Window>
