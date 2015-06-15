@@ -35,27 +35,27 @@
                 <ComboBox ItemsSource="{Binding Students}"
                                         DisplayMemberPath="FullName"
                                         SelectedValuePath="Rfid"
-                                        SelectedValue="{Binding SelectedStudent.Rfid, Mode=TwoWay}" 
+                                        SelectedValue="{Binding CurrentRfid, Mode=TwoWay}" 
                                         HorizontalAlignment="Stretch"/>
-                <Button Content="Выбрать ученика" TextBlock.FontSize="14" 
-                        Command="{Binding Path=SelectStudentCommand}"></Button>
+                <Button Content="Удалить ученика" TextBlock.FontSize="14" 
+                    Command="{Binding Path=DeleteStudentCommand}"></Button>
             </StackPanel>
         </GroupBox>
         <GroupBox Grid.Row="1" Grid.Column="0" Header="Данные ученика" TextBlock.FontSize="14">
             <StackPanel>
                 <Label Content="Имя" TextBlock.FontSize="14" ></Label>
-                <TextBox Text="{Binding SelectedStudent.FirstName}" TextBlock.FontSize="14" ></TextBox>
+                <TextBox Text="{Binding SelectedStudentModel.FirstName, Mode=TwoWay}" TextBlock.FontSize="14" ></TextBox>
                 <Label Content="Отчество" TextBlock.FontSize="14" ></Label>
-                <TextBox Text="{Binding SelectedStudent.MiddleName}" TextBlock.FontSize="14" ></TextBox>
+                <TextBox Text="{Binding SelectedStudentModel.MiddleName, Mode=TwoWay}" TextBlock.FontSize="14" ></TextBox>
                 <Label Content="Фамилия" TextBlock.FontSize="14" ></Label>
-                <TextBox Text="{Binding SelectedStudent.LastName}" TextBlock.FontSize="14" ></TextBox>
+                <TextBox Text="{Binding SelectedStudentModel.LastName, Mode=TwoWay}" TextBlock.FontSize="14" ></TextBox>
                 <Label Content="Класс" TextBlock.FontSize="14" ></Label>
                 <ComboBox ItemsSource="{Binding Grades}"
                                         DisplayMemberPath="Grade"
                                         SelectedValuePath="GradeId"
-                                        SelectedValue="{Binding SelectedStudent.GradeId}" />
+                                        SelectedValue="{Binding SelectedStudentModel.GradeId, Mode=TwoWay}" />
                 <Label Content="RFID" TextBlock.FontSize="14" ></Label>
-                <TextBox Text="{Binding SelectedStudent.Rfid}" TextBlock.FontSize="14" IsEnabled="False"></TextBox>
+                <TextBox Text="{Binding SelectedStudentModel.Rfid, Mode=TwoWay}" TextBlock.FontSize="14" IsEnabled="False"></TextBox>
             </StackPanel>
         </GroupBox>
         <Grid Grid.Row="2" Grid.Column="0">

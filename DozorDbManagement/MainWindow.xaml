@@ -29,12 +29,18 @@
             <MenuItem Header="Ученики" TextBlock.FontSize="14">
                 <MenuItem Header="Добавить ученика" Command="{Binding Path=AddStudentCommand}"></MenuItem>
                 <MenuItem Header="Изменить ученика" Command="{Binding Path=UpdateStudentCommand}"></MenuItem>
-                <MenuItem Header="Удалить ученика"></MenuItem>
             </MenuItem>
             <MenuItem Header="Классы" TextBlock.FontSize="14">
                 <MenuItem Header="Добавить класс"></MenuItem>
                 <MenuItem Header="Изменить название"></MenuItem>
-                <MenuItem Header="Удалить класс"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Подгруппы" TextBlock.FontSize="14">
+                <MenuItem Header="Добавить подгруппу"></MenuItem>
+                <MenuItem Header="Изменить подгруппу"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Пользователи" TextBlock.FontSize="14">
+                <MenuItem Header="Добавить пользователя"></MenuItem>
+                <MenuItem Header="Изменить пользователя"></MenuItem>
             </MenuItem>
         </Menu>
         <ContentControl Grid.Row="1" Grid.Column="0" Content="{Binding CurrentPageViewModel}" />

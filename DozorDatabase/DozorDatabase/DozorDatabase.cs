@@ -232,6 +232,11 @@ namespace DozorDatabaseLib
             return InsertRecordToDb(DatabaseConstants.USERS_TABLE, user);
         }
 
+        public Boolean UpdateStudent(Student student)
+        {
+            return UpdateRecord(DatabaseConstants.STUDENTS_TABLE, student);
+        }
+
         #endregion
 
         #region DozorDatabase private methods
@@ -305,6 +310,12 @@ namespace DozorDatabaseLib
             return tableCollection;
         }
 
+        /// <summary>
+        /// Insert rec
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <param name="dataTableModel"></param>
+        /// <returns></returns>
         private Boolean InsertRecordToDb(String tableName, DataTableModel dataTableModel)
         {
             if (tableName == null ||
@@ -346,7 +357,13 @@ namespace DozorDatabaseLib
             return true;
         }
 
-        private Boolean UpdateRecord(String tableName, String[] fieldsList, String[] valuesList, String[] whereFieldsList, String[] whereValuesList)
+        /// <summary>
+        /// Update query
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <param name="dataTableModel"></param>
+        /// <returns></returns>
+        private Boolean UpdateRecord(String tableName, DataTableModel dataTableModel)
         {
             if (tableName == null ||
                 (tableName != DatabaseConstants.STUDENTS_TABLE &&
@@ -355,22 +372,72 @@ namespace DozorDatabaseLib
                 tableName != DatabaseConstants.ATTENDANCE_TABLE &&
                 tableName != DatabaseConstants.USERS_TABLE))
                 return false;
-            if ((fieldsList.Count() != valuesList.Count()) ||
-                fieldsList.Count() == 0 ||
-                (whereFieldsList.Count() != whereValuesList.Count()) ||
-                whereFieldsList.Count() == 0)
-                return false;
-            String sqlQuery = "UPDATE " + tableName + " set ";           
-            for (int i = 0; i < fieldsList.Count(); i++)
+            String fieldsString = "ID," + dataTableModel.FieldsString;
+            List<Tuple<string, object>> valuesList = dataTableModel.ValuesList;
+            valuesList.Insert(0, new Tuple<string, object>("ID", dataTableModel.ID));
+            String valuesParamsString = "@ID," + dataTableModel.ValuesParamsString;
+
+            String sqlQuery = "UPDATE OR INSERT INTO " + tableName + " (" +
+                              fieldsString + ") " + " VALUES (" +
+                              valuesParamsString + ")";
+            // values
+            try
             {
-                sqlQuery += fieldsList[i] + " = '" + valuesList[i] + "' "; 
+                connection.Open();
             }
-            sqlQuery += "WHERE ";
-            for (int i = 0; i < whereFieldsList.Count(); i++)
+            catch (Exception e)
             {
-                sqlQuery += whereFieldsList[i] + " = '" + whereValuesList[i] + "' ";
-                if(i < whereValuesList.Count() - 1)
-                    sqlQuery += "and ";
+                return false;
+            }
+            FbCommand fbCom = new FbCommand(sqlQuery, connection);
+            foreach (Tuple<string, object> valueTuple in valuesList)
+            {
+                fbCom.Parameters.AddWithValue(valueTuple.Item1, valueTuple.Item2);
+            }
+            try
+            {
+                int res = fbCom.ExecuteNonQuery();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                connection.Close();
+                return false;
+            }
+            return true;
+        }
+
+        private Boolean DeleteRecords(String tableName, Tuple<string, object> value)
+        {
+            if (tableName == null ||
+               (tableName != DatabaseConstants.STUDENTS_TABLE &&
+               tableName != DatabaseConstants.GRADES_TABLE &&
+               tableName != DatabaseConstants.MESSAGES_TABLE &&
+               tableName != DatabaseConstants.ATTENDANCE_TABLE &&
+               tableName != DatabaseConstants.USERS_TABLE))
+                return false;
+            String sqlQuery = "DELETE FROM " + tableName + " WHERE " +
+                              value.Item1 + "=" + "@" + value.Item1;
+            // values
+            try
+            {
+                connection.Open();
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            FbCommand fbCom = new FbCommand(sqlQuery, connection);
+            fbCom.Parameters.AddWithValue(value.Item1, value.Item2);
+            try
+            {
+                int res = fbCom.ExecuteNonQuery();
+                connection.Close();
+            }
+            catch (Exception e)
+            {
+                connection.Close();
+                return false;
             }
             return true;
         }

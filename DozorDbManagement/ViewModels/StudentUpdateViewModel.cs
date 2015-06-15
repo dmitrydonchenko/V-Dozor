@@ -25,19 +25,19 @@ namespace DozorDbManagement.ViewModels
             }
         }
 
-        private StudentModel currentStudent;
-        public StudentModel SelectedStudent
+        private StudentModel currentStudentModel;
+        public StudentModel SelectedStudentModel
         {
             get
             {
-                return currentStudent;
+                return currentStudentModel;
             }
             set
             {
-                if (currentStudent != value)
+                if (currentStudentModel != value)
                 {
-                    currentStudent = value;
-                    RaisePropertyChanged("SelectedStudent");
+                    currentStudentModel = value;
+                    RaisePropertyChanged("SelectedStudentModel");
                 }
             }
         }
@@ -72,7 +72,6 @@ namespace DozorDbManagement.ViewModels
                 if (gradeId == value)
                     return;
                 gradeId = value;
-                SelectedStudent.GradeId = gradeId;
                 Students.Clear();
                 var studentsList = dozorDatabase.GetStudentsByGrade(gradeId);
                 List<StudentModel> studentsTempList = new List<StudentModel>();
@@ -82,16 +81,32 @@ namespace DozorDbManagement.ViewModels
                 }
                 Students = studentsTempList;
                 if (Students.Count > 0)
-                    SelectedStudent = Students.ElementAt(0);
+                {
+                    SelectedStudentModel = Students.ElementAt(0);
+                    CurrentRfid = SelectedStudentModel.Rfid;
+                }
             }
         }
 
-        private ICommand _selectStudentCommand;
+        private String currentRfid;
+        public String CurrentRfid
+        {
+            get { return currentRfid; }
+            set
+            {
+                currentRfid = value;
+                SelectStudent();
+            }
+        }
+
         private ICommand _updateStudentCommand;
         private ICommand _goToDefaultViewCommand;
+        private ICommand _deleteStudentCommand;
 
         private RfidReader rfidReader;
         private DozorDatabase dozorDatabase;
+
+        private Student selectedStudent;
 
         #endregion
 
@@ -99,7 +114,7 @@ namespace DozorDbManagement.ViewModels
 
         public StudentUpdateViewModel()
         {
-            SelectedStudent = new StudentModel();
+            SelectedStudentModel = new StudentModel();
             // Get grades list from db
             dozorDatabase = DozorDatabase.Instance;
             var gradesList = dozorDatabase.GetAllGrades();
@@ -118,7 +133,10 @@ namespace DozorDbManagement.ViewModels
                     Students.Add(new StudentModel(student.FIRST_NAME, student.MIDDLE_NAME, student.LAST_NAME, student.GRADE_ID, student.RFID));                    
                 }
                 if (Students.Count > 0)
-                    SelectedStudent = Students.ElementAt(0);
+                {
+                    SelectedStudentModel = Students.ElementAt(0);
+                    CurrentRfid = SelectedStudentModel.Rfid;
+                }
             }                        
 
             //Start Usb Service
@@ -132,51 +150,47 @@ namespace DozorDbManagement.ViewModels
 
         private void RfidReceived(object sender, String rfid)
         {
-            if (SelectedStudent.Rfid != rfid)
+            if (CurrentRfid != rfid)
             {
-                Student student = dozorDatabase.GetStudentByRfid(rfid);
-                SelectedStudent.Rfid = rfid;
-                if (student != null)
-                {                    
-                    SelectedStudent.FirstName = student.FIRST_NAME;
-                    SelectedStudent.MiddleName = student.MIDDLE_NAME;
-                    SelectedStudent.LastName = student.LAST_NAME;
-                    SelectedStudent.GradeId = student.GRADE_ID;
-                }                              
+                CurrentRfid = rfid;
+                SelectStudent();                          
+            }
+        }
+
+        private void SelectStudent()
+        {
+            if (currentRfid == null)
+                return;
+            selectedStudent = dozorDatabase.GetStudentByRfid(currentRfid);
+            if (selectedStudent != null)
+            {
+                SelectedStudentModel = new StudentModel(selectedStudent.FIRST_NAME,
+                                                                  selectedStudent.MIDDLE_NAME,
+                                                                  selectedStudent.LAST_NAME,
+                                                                  selectedStudent.GRADE_ID,
+                                                                  currentRfid);
             }
         }
 
         #endregion
 
-        #region Commands
-
-        public void SelectStudent()
-        {
-            String rfid = SelectedStudent.Rfid;
-            Student student = dozorDatabase.GetStudentByRfid(rfid);
-            SelectedStudent.FirstName = student.FIRST_NAME;
-            SelectedStudent.MiddleName = student.MIDDLE_NAME;
-            SelectedStudent.LastName = student.LAST_NAME;
-            SelectedStudent.GradeId = student.GRADE_ID;
-        }
-
-        public ICommand SelectStudentCommand
-        {
-            get
-            {
-                if (_selectStudentCommand == null)
-                {
-                    _selectStudentCommand = new RelayCommand(
-                        param => SelectStudent()
-                    );
-                }
-                return _selectStudentCommand;
-            }
-        }
+        #region Commands       
 
         private void UpdateStudent()
         {
-
+            selectedStudent.FIRST_NAME = SelectedStudentModel.FirstName;
+            selectedStudent.MIDDLE_NAME = SelectedStudentModel.MiddleName;
+            selectedStudent.LAST_NAME = SelectedStudentModel.LastName;
+            selectedStudent.GRADE_ID = SelectedStudentModel.GradeId;
+            selectedStudent.RFID = SelectedStudentModel.Rfid;
+            if(dozorDatabase.UpdateStudent(selectedStudent))
+            {
+                MessageBox.Show("Ученик был успешно отредактирован", "Информация о запросе", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show("Ошибка при редактировании ученика", "Информация о запросе", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         public ICommand UpdateStudentCommand
@@ -190,6 +204,25 @@ namespace DozorDbManagement.ViewModels
                     );
                 }
                 return _updateStudentCommand;
+            }
+        }
+
+        private void DeleteStudent()
+        {
+
+        }
+
+        public ICommand DeleteStudentCommand
+        {
+            get
+            {
+                if (_deleteStudentCommand == null)
+                {
+                    _deleteStudentCommand = new RelayCommand(
+                        param => DeleteStudent()
+                    );
+                }
+                return _deleteStudentCommand;
             }
         }
 

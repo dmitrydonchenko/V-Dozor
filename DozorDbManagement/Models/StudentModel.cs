@@ -75,7 +75,7 @@ namespace DozorDbManagement.Models
             set
             {
                 fullName = value;
-                base.RaisePropertyChanged("Rfid");
+                base.RaisePropertyChanged("FullName");
             }
         }
 
