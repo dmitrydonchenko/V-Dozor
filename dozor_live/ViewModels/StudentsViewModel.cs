@@ -82,14 +82,25 @@ namespace dozor_live.ViewModels
             }
         }
 
-        private BitmapImage snapshot;
-        public BitmapImage Snapshot
+        private BitmapImage snapshot1;
+        public BitmapImage Snapshot1
         {
-            get { return snapshot; }
+            get { return snapshot1; }
             set
             {
-                snapshot = value;
-                base.RaisePropertyChanged("Snapshot");
+                snapshot1 = value;
+                base.RaisePropertyChanged("Snapshot1");
+            }
+        }
+
+        private BitmapImage snapshot2;
+        public BitmapImage Snapshot2
+        {
+            get { return snapshot2; }
+            set
+            {
+                snapshot2 = value;
+                base.RaisePropertyChanged("Snapshot2");
             }
         }
 
@@ -114,8 +125,7 @@ namespace dozor_live.ViewModels
             // Getting student from db
             currentStudent = dozorDatabase.GetStudentByRfid(rfid);
             BitmapImage bitmapSource = ConvertToBitmapImage(snapshot);
-            bitmapSource.Freeze();
-            Snapshot = bitmapSource;
+            bitmapSource.Freeze();            
             currentDateTime = dateTime;
 
             // Create and insert attendance to db
@@ -136,10 +146,10 @@ namespace dozor_live.ViewModels
             }            
             
             dozorDatabase.InsertAttendance(attendance);
-            SetStudents(attendance.IS_IN);
+            SetStudents(attendance.IS_IN, bitmapSource);
         }
 
-        private void SetStudents(Boolean isIn)
+        private void SetStudents(Boolean isIn, BitmapImage bitmapSource)
         {
             DozorDatabase dozorDatabase = DozorDatabase.Instance;
 
@@ -147,18 +157,22 @@ namespace dozor_live.ViewModels
             if(Students[0] == null)
             {
                 curStudentIndex = 0;
+                Snapshot1 = bitmapSource;
             }
             else if(Students[1] == null)
             {
                 curStudentIndex = 1;
+                Snapshot2= bitmapSource;
             }
             else if(Students[0].AttendanceDateTime <= Students[1].AttendanceDateTime)
             {
                 curStudentIndex = 0;
+                Snapshot1 = bitmapSource;
             }
             else
             {
                 curStudentIndex = 1;
+                Snapshot2 = bitmapSource;
             }
             // Setting StudentModel           
             Students[curStudentIndex] = new StudentModel(currentStudent.FIRST_NAME);

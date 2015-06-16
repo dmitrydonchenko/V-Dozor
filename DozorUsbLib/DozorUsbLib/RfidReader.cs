@@ -32,7 +32,11 @@ namespace DozorUsbLib
             //New interactive mode
             rcon.DevicesList.HidReadKind = ARDevGroup.VotumHardware.Core.UsbDeviceReciever.HidReadKindEnum.InteractiveMode;
             rcon.DevicesList.OpenDevices();
-            rcon.DevicesList.DataRecieved += new EventHandler<DeviceDataArgs>(DevicesList_DataRecieved);
+            foreach (DeviceRecieverBase device in rcon.DevicesList.DevicesList)
+            {
+                device.DataRecieved += new EventHandler<DeviceDataArgs>(DevicesList_DataRecieved);
+            }
+            //rcon.DevicesList.DataRecieved += new EventHandler<DeviceDataArgs>(DevicesList_DataRecieved);
         }        
 
         /// <summary>

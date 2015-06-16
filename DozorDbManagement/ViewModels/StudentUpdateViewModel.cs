@@ -4,6 +4,7 @@ using DozorDbManagement.Models;
 using DozorUsbLib;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,8 +53,8 @@ namespace DozorDbManagement.ViewModels
             }
         }
 
-        private List<StudentModel> students;
-        public List<StudentModel> Students
+        private ObservableCollection<StudentModel> students;
+        public ObservableCollection<StudentModel> Students
         {
             get { return students; }
             set
@@ -69,21 +70,24 @@ namespace DozorDbManagement.ViewModels
             get { return gradeId; }
             set
             {
-                if (gradeId == value)
-                    return;
                 gradeId = value;
                 Students.Clear();
                 var studentsList = dozorDatabase.GetStudentsByGrade(gradeId);
-                List<StudentModel> studentsTempList = new List<StudentModel>();
                 foreach (Student student in studentsList)
                 {
-                    studentsTempList.Add(new StudentModel(student.FIRST_NAME, student.MIDDLE_NAME, student.LAST_NAME, student.GRADE_ID, student.RFID));
+                    Students.Add(new StudentModel(student.FIRST_NAME, student.MIDDLE_NAME, student.LAST_NAME, student.GRADE_ID, student.RFID));
                 }
-                Students = studentsTempList;
                 if (Students.Count > 0)
                 {
                     SelectedStudentModel = Students.ElementAt(0);
                     CurrentRfid = SelectedStudentModel.Rfid;
+                    RaisePropertyChanged("Students");
+                }
+                else
+                {
+                    SelectedStudentModel = null;
+                    selectedStudent = null;
+                    CurrentRfid = null;
                 }
             }
         }
@@ -124,7 +128,7 @@ namespace DozorDbManagement.ViewModels
                 Grades.Add(new GradeModel(grade.ID, grade.GRADE));
             }
 
-            Students = new List<StudentModel>();
+            Students = new ObservableCollection<StudentModel>();
             if(gradesList.Count() > 0)
             {
                 var studentsList = dozorDatabase.GetStudentsByGrade(Grades.ElementAt(0).GradeId);                
@@ -186,6 +190,7 @@ namespace DozorDbManagement.ViewModels
             if(dozorDatabase.UpdateStudent(selectedStudent))
             {
                 MessageBox.Show("Ученик был успешно отредактирован", "Информация о запросе", MessageBoxButton.OK, MessageBoxImage.Information);
+                GradeId = GradeId;
             }
             else
             {
@@ -209,7 +214,38 @@ namespace DozorDbManagement.ViewModels
 
         private void DeleteStudent()
         {
-
+            if(MessageBox.Show("Вы уверены?", "Удаления записи", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                if(selectedStudent != null)
+                {
+                    if(dozorDatabase.DeleteStudentById(selectedStudent.ID))
+                    {
+                        bool sd = Students.Remove(SelectedStudentModel);
+                        RaisePropertyChanged("Students");
+                        CurrentRfid = null;
+                        if(Students.Count > 0)
+                        {
+                            SelectedStudentModel = Students.ElementAt(0);
+                            CurrentRfid = Students.ElementAt(0).Rfid;
+                            selectedStudent = dozorDatabase.GetStudentByRfid(CurrentRfid);
+                        }
+                        else
+                        {
+                            SelectedStudentModel = null;
+                            selectedStudent = null;
+                        }                        
+                        MessageBox.Show("Запись успешно удалена", "Удаление записи", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка при удалении записи", "Удаление записи", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Выберите ученика для удаления", "Удаление записи", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
         }
 
         public ICommand DeleteStudentCommand

@@ -48,7 +48,9 @@ namespace DozorDatabaseLib
             {
                 instance = new DozorDatabase(connectionString);
             }
-        }        
+        }
+
+        #region Select methods
 
         /// <summary>
         /// Returns student by ID
@@ -75,7 +77,7 @@ namespace DozorDatabaseLib
         {
             var students = GetRecordsFromTable(DatabaseConstants.STUDENTS_TABLE, new string[] { DatabaseConstants.STUDENTS_TABLE_RFID }, new string[] { rfid });
             Student student = null;
-            if (students != null)
+            if (students.Count() > 0)
             {
                 student = students.ElementAt(0);                               
             }
@@ -148,7 +150,7 @@ namespace DozorDatabaseLib
         }
 
         /// <summary>
-        /// Get attendancies relevant to specified student
+        /// Returns attendancies relevant to specified student
         /// </summary>
         /// <param name="_StudentId"></param>
         /// <returns></returns>
@@ -161,7 +163,7 @@ namespace DozorDatabaseLib
         }
         
         /// <summary>
-        /// Get attendancies by date relevant to specified student
+        /// Returns attendancies by date relevant to specified student
         /// </summary>
         /// <param name="studentId"></param>
         /// <param name="dateTime"></param>
@@ -181,6 +183,10 @@ namespace DozorDatabaseLib
             }
             return attendanciesByDate;
         }
+
+        #endregion
+
+        #region Insert methods
 
         /// <summary>
         /// Insert attendance to db
@@ -232,10 +238,40 @@ namespace DozorDatabaseLib
             return InsertRecordToDb(DatabaseConstants.USERS_TABLE, user);
         }
 
+        #endregion 
+
+        #region Update methods
+
         public Boolean UpdateStudent(Student student)
         {
             return UpdateRecord(DatabaseConstants.STUDENTS_TABLE, student);
         }
+
+        public Boolean UpdateGrade(Grade grade)
+        {
+            return UpdateRecord(DatabaseConstants.GRADES_TABLE, grade);
+        }
+
+        public Boolean UpdateSubgroup(Subgroup subgroup)
+        {
+            return UpdateRecord(DatabaseConstants.SUBGROUP_TABLE, subgroup);
+        }
+
+        public Boolean UpdateUser(User user)
+        {
+            return UpdateRecord(DatabaseConstants.USERS_TABLE, user);
+        }
+
+        #endregion
+
+        #region Delete methods
+
+        public Boolean DeleteStudentById(int studentId)
+        {
+            return DeleteRecords(DatabaseConstants.STUDENTS_TABLE, new Tuple<string, object>(DatabaseConstants.STUDENTS_TABLE_ID, studentId));
+        }
+
+        #endregion
 
         #endregion
 

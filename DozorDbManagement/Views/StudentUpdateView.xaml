@@ -33,6 +33,7 @@
                                         SelectedValue="{Binding GradeId, Mode=TwoWay}" />
                 <Label Content="Ученик:" TextBlock.FontSize="14"></Label>
                 <ComboBox ItemsSource="{Binding Students}"
+                                        SelectedItem="{Binding Path=SelectedStudentModel, Mode=TwoWay}"
                                         DisplayMemberPath="FullName"
                                         SelectedValuePath="Rfid"
                                         SelectedValue="{Binding CurrentRfid, Mode=TwoWay}" 

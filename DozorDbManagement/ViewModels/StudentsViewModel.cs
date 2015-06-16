@@ -110,6 +110,7 @@ namespace DozorDbManagement.ViewModels
             if(dozorDatabase.InsertStudent(student))
             {
                 MessageBox.Show("Ученик был успешно добавлен", "Информация о запросе", MessageBoxButton.OK, MessageBoxImage.Information);
+                SelectedStudent = new StudentModel();
             }
             else
             {
