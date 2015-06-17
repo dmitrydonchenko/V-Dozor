@@ -14,8 +14,18 @@ namespace DozorDbManagement.ViewModels
         #region Fields
 
         private ICommand _changePageCommand;
+
         private ICommand _addStudentCommand;
         private ICommand _updateStudentCommand;
+
+        private ICommand _addGradeCommand;
+        private ICommand _updateGradeCommand;
+
+        private ICommand _addSubgroupCommand;
+        private ICommand _updateSubgroupCommand;
+
+        private ICommand _addUserCommand;
+        private ICommand _updateUserCommand;
 
         private IPageViewModel _currentPageViewModel;
         private List<IPageViewModel> _pageViewModels;
@@ -67,6 +77,18 @@ namespace DozorDbManagement.ViewModels
             AppContext.CurrentPageViewModel = suvm;
         }
 
+        private void GoToGradesView()
+        {
+            GradesViewModel gvm = new GradesViewModel();
+            AppContext.CurrentPageViewModel = gvm;
+        }
+
+        private void GoToGradeUpdateView()
+        {
+            GradeUpdateViewModel guvm = new GradeUpdateViewModel();
+            AppContext.CurrentPageViewModel = guvm;
+        }
+
         public ICommand AddStudentCommand
         {
             get
@@ -92,6 +114,34 @@ namespace DozorDbManagement.ViewModels
                     );
                 }
                 return _updateStudentCommand;
+            }
+        }
+
+        public ICommand AddGradeCommand
+        {
+            get
+            {
+                if (_addGradeCommand == null)
+                {
+                    _addGradeCommand = new RelayCommand(
+                        param => GoToGradesView()
+                    );
+                }
+                return _addGradeCommand;
+            }
+        }
+
+        public ICommand UpdateGradeCommand
+        {
+            get
+            {
+                if (_updateGradeCommand == null)
+                {
+                    _updateGradeCommand = new RelayCommand(
+                        param => GoToGradeUpdateView()
+                    );
+                }
+                return _updateGradeCommand;
             }
         }        
 

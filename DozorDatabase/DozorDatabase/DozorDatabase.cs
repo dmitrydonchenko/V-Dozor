@@ -271,6 +271,31 @@ namespace DozorDatabaseLib
             return DeleteRecords(DatabaseConstants.STUDENTS_TABLE, new Tuple<string, object>(DatabaseConstants.STUDENTS_TABLE_ID, studentId));
         }
 
+        public Boolean DeleteGradeById(int gradeId)
+        {
+            return DeleteRecords(DatabaseConstants.GRADES_TABLE, new Tuple<string, object>(DatabaseConstants.GRADES_TABLE_ID, gradeId));
+        }
+
+        public Boolean DeleteSubgroupById(int subgroupId)
+        {
+            return DeleteRecords(DatabaseConstants.SUBGROUP_TABLE, new Tuple<string, object>(DatabaseConstants.SUBGROUP_TABLE, subgroupId));
+        }
+
+        public Boolean DeleteUserById(int userId)
+        {
+            return DeleteRecords(DatabaseConstants.USERS_TABLE, new Tuple<string, object>(DatabaseConstants.USERS_TABLE, userId));
+        }
+
+        public Boolean DeleteSubgroupStudentBySubgroupId(int subgroupId)
+        {
+            return DeleteRecords(DatabaseConstants.STUDENTS_SUBGROUPS_TABLE, new Tuple<string, object>(DatabaseConstants.STUDENTS_SUBGROUPS_TABLE_SUBGROUP_ID, subgroupId));
+        }
+
+        public Boolean DeleteSubgroupStudentByStudentId(int studentId)
+        {
+            return DeleteRecords(DatabaseConstants.STUDENTS_SUBGROUPS_TABLE, new Tuple<string, object>(DatabaseConstants.STUDENTS_SUBGROUPS_TABLE_STUDENT_ID, studentId));
+        }
+
         #endregion
 
         #endregion

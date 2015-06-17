@@ -36,5 +36,10 @@ namespace DozorDbManagement.Models
             GradeId = gradeId;
             Grade = grade;
         }
+
+        public GradeModel()
+        {
+
+        }
     }
 }

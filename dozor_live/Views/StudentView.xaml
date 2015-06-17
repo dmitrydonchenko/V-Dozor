@@ -50,17 +50,17 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="5*"/>
             </Grid.RowDefinitions>
-            <GroupBox Grid.Column="0" Grid.Row="0" Header="Текущие сообщения" TextBlock.FontSize="22">
+            <GroupBox Grid.Column="0" Grid.Row="0">
                 <DataGrid x:Name="student1MessagesDataGrid"
                           ItemsSource="{Binding Student1.Messages}"
                           AutoGenerateColumns="False"
                           CanUserAddRows="False">
-                    <DataGrid.Columns>
+                    <DataGrid.Columns> 
                         <DataGridTextColumn Header="Текст сообщения" Binding="{Binding MessageText}" TextBlock.FontSize="18" Width="1*"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>
-            <GroupBox Grid.Column="1" Grid.Row="0" Header="Текущие сообщения" TextBlock.FontSize="22">
+            <GroupBox Grid.Column="1" Grid.Row="0">
                 <DataGrid x:Name="student2MessagesDataGrid"
                           ItemsSource="{Binding Student2.Messages}"
                           AutoGenerateColumns="False"

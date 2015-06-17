@@ -13,9 +13,15 @@
         <DataTemplate DataType="{x:Type view_models:StudentUpdateViewModel}">
             <views:StudentUpdateView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type view_models:GradesViewModel}">
+            <views:GradeView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type view_models:GradeUpdateViewModel}">
+            <views:GradeUpdateView />
+        </DataTemplate>
         <DataTemplate DataType="{x:Type view_models:DefaultViewModel}">
             <views:DefaultView />
-        </DataTemplate>
+        </DataTemplate>        
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -31,8 +37,8 @@
                 <MenuItem Header="Изменить ученика" Command="{Binding Path=UpdateStudentCommand}"></MenuItem>
             </MenuItem>
             <MenuItem Header="Классы" TextBlock.FontSize="14">
-                <MenuItem Header="Добавить класс"></MenuItem>
-                <MenuItem Header="Изменить название"></MenuItem>
+                <MenuItem Header="Добавить класс" Command="{Binding Path=AddGradeCommand}"></MenuItem>
+                <MenuItem Header="Изменить класс" Command="{Binding Path=UpdateGradeCommand}"></MenuItem>
             </MenuItem>
             <MenuItem Header="Подгруппы" TextBlock.FontSize="14">
                 <MenuItem Header="Добавить подгруппу"></MenuItem>
