@@ -99,6 +99,7 @@ namespace DozorDbManagement.Models
             MiddleName = "";
             LastName = "";
             FullName = "";
+            GradeId = -1;
         }
     }
 }

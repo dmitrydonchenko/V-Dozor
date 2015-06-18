@@ -8,15 +8,15 @@ namespace DozorDatabaseLib.DataClasses
 {
     public class Subgroup : DataTableModel 
     {
-        public String GRADE_ID { get; set; }
-        public String NAME { get; set; }
+        public Int32 GRADE_ID { get; set; }
+        public String SUBGROUP { get; set; }
 
         public override string FieldsString
         {
             get
             {
                 return DatabaseConstants.SUBGROUP_TABLE_GRADE_ID + "," +
-                       DatabaseConstants.SUBGROUP_TABLE_NAME;
+                       DatabaseConstants.SUBGROUP_TABLE_SUBGROUP;
             }
         }
 
@@ -25,7 +25,7 @@ namespace DozorDatabaseLib.DataClasses
             get
             {
                 return "@GRADE_ID," +
-                       "@NAME";
+                       "@SUBGROUP";
             }
         }
 
@@ -34,7 +34,7 @@ namespace DozorDatabaseLib.DataClasses
             get
             {
                 return new List<Tuple<string, object>> { new Tuple<string, object>("GRADE_ID", GRADE_ID),
-                                                         new Tuple<string, object>("NAME", NAME)};
+                                                         new Tuple<string, object>("SUBGROUP", SUBGROUP)};
             }
         }
     }

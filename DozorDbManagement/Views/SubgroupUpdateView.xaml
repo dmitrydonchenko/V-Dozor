@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="DozorDbManagement.Views.GradeUpdateView"
+﻿<UserControl x:Class="DozorDbManagement.Views.SubgroupUpdateView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,9 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
-        <DataTemplate DataType="{x:Type view_models:GradeUpdateViewModel}"/>
+        <DataTemplate DataType="{x:Type view_models:SubgroupUpdateViewModel}"/>
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
@@ -19,7 +19,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <GroupBox Grid.Row="0" Grid.Column="0" Header="Выберите класс:" TextBlock.FontSize="14">
+        <GroupBox Grid.Row="0" Grid.Column="0" Header="Выберите подгруппу:" TextBlock.FontSize="14">
             <StackPanel Orientation="Horizontal">
                 <StackPanel.Resources>
                     <Style TargetType="{x:Type ComboBox}">
@@ -27,19 +27,31 @@
                     </Style>
                 </StackPanel.Resources>
                 <Label Content="Класс:" TextBlock.FontSize="14" Width="auto"></Label>
-                <ComboBox ItemsSource="{Binding Grades, Mode=TwoWay}"
-                                        SelectedItem="{Binding Path=SelectedGradeModel, Mode=TwoWay}"
+                <ComboBox ItemsSource="{Binding Grades }"
+                                        SelectedItem="{Binding Path=Grade, Mode=TwoWay}"
                                         DisplayMemberPath="Grade"
                                         SelectedValuePath="GradeId"
                                         SelectedValue="{Binding GradeId, Mode=TwoWay}" />
-                <Button Content="Удалить класс" TextBlock.FontSize="14" 
-                    Command="{Binding Path=DeleteGradeCommand}"></Button>
-            </StackPanel>            
+                <Label Content="Подгруппа:" TextBlock.FontSize="14" Width="auto"></Label>
+                <ComboBox ItemsSource="{Binding Subgroups }"
+                                        SelectedItem="{Binding Path=Subgroup, Mode=TwoWay}"
+                                        DisplayMemberPath="Subgroup"
+                                        SelectedValuePath="SubgroupId"
+                                        SelectedValue="{Binding SubgroupId, Mode=TwoWay}" />
+                <Button Content="Удалить подгруппу" TextBlock.FontSize="14" 
+                    Command="{Binding Path=DeleteSubgroupCommand}"></Button>
+            </StackPanel>
         </GroupBox>
-        <GroupBox Grid.Row="1" Grid.Column="0" Header="Данные класса" TextBlock.FontSize="14">
+        <GroupBox Grid.Row="1" Grid.Column="0" Header="Данные подгруппы" TextBlock.FontSize="14">
             <StackPanel>
-                <Label Content="Название класса" TextBlock.FontSize="14" ></Label>
-                <TextBox Text="{Binding SelectedGradeModel.Grade, Mode=TwoWay}" TextBlock.FontSize="14" ></TextBox>
+                <Label Content="Класс:" TextBlock.FontSize="14" ></Label>
+                <ComboBox ItemsSource="{Binding Grades }"
+                                        SelectedItem="{Binding Path=GradeToUpdate, Mode=TwoWay}"
+                                        DisplayMemberPath="GradeToUpdate"
+                                        SelectedValuePath="GradeToUpdateId"
+                                        SelectedValue="{Binding SelectedSubgroupModel.GradeId, Mode=TwoWay}" />
+                <Label Content="Название подгруппы:" TextBlock.FontSize="14" ></Label>
+                <TextBox Text="{Binding SelectedSubgroupModel.Subgroup, Mode=TwoWay}" TextBlock.FontSize="14" ></TextBox>
             </StackPanel>
         </GroupBox>
         <Grid Grid.Row="2" Grid.Column="0">
@@ -52,7 +64,7 @@
                 <ColumnDefinition Width="4*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Button Grid.Row="0" Grid.Column="1" Content="Ok" TextBlock.FontSize="14" 
-                    Command="{Binding Path=UpdateGradeCommand}"></Button>
+                    Command="{Binding Path=UpdateSubgroupCommand}"></Button>
             <Button Grid.Row="0" Grid.Column="2" Content="Отмена" TextBlock.FontSize="14"
                     Command="{Binding Path=GoToDefaultViewCommand}"></Button>
         </Grid>

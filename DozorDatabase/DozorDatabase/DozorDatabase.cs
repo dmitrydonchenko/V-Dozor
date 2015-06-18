@@ -184,6 +184,36 @@ namespace DozorDatabaseLib
             return attendanciesByDate;
         }
 
+        /// <summary>
+        /// Returns subgroups by grade id
+        /// </summary>
+        /// <param name="gradeId"></param>
+        /// <returns></returns>
+        public IEnumerable<Subgroup> GetSubgroupsByGradeId(int gradeId)
+        {
+            IEnumerable<Subgroup> subgroups = (IEnumerable<Subgroup>)GetRecordsFromTable(DatabaseConstants.SUBGROUP_TABLE,
+                new string[] { DatabaseConstants.SUBGROUP_TABLE_GRADE_ID },
+                new string[] { gradeId.ToString() });
+            return subgroups;
+        }
+
+        /// <summary>
+        /// Returns subgroup by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Subgroup GetSubgroupById(int id)
+        {
+            IEnumerable<Subgroup> subgroups = (IEnumerable<Subgroup>)GetRecordsFromTable(DatabaseConstants.SUBGROUP_TABLE,
+                new string[] { DatabaseConstants.SUBGROUP_TABLE_ID },
+                new string[] { id.ToString() });
+            if(subgroups.Count() > 0)
+            {
+                return subgroups.ElementAt(0);
+            }
+            return null;
+        }
+
         #endregion
 
         #region Insert methods
@@ -238,6 +268,26 @@ namespace DozorDatabaseLib
             return InsertRecordToDb(DatabaseConstants.USERS_TABLE, user);
         }
 
+        /// <summary>
+        /// Insert subgroup to db
+        /// </summary>
+        /// <param name="subgroup"></param>
+        /// <returns></returns>
+        public Boolean InsertSubgroup(Subgroup subgroup)
+        {
+            return InsertRecordToDb(DatabaseConstants.SUBGROUP_TABLE, subgroup);
+        }
+
+        /// <summary>
+        /// Insert student-subgroup record to db
+        /// </summary>
+        /// <param name="studentSubgroup"></param>
+        /// <returns></returns>
+        public Boolean InsertStudentSubgroup(StudentSubgroup studentSubgroup)
+        {
+            return InsertRecordToDb(DatabaseConstants.STUDENTS_SUBGROUPS_TABLE, studentSubgroup);
+        }
+
         #endregion 
 
         #region Update methods
@@ -266,31 +316,90 @@ namespace DozorDatabaseLib
 
         #region Delete methods
 
+        /// <summary>
+        /// Delete student by id
+        /// </summary>
+        /// <param name="studentId"></param>
+        /// <returns></returns>
         public Boolean DeleteStudentById(int studentId)
         {
             return DeleteRecords(DatabaseConstants.STUDENTS_TABLE, new Tuple<string, object>(DatabaseConstants.STUDENTS_TABLE_ID, studentId));
         }
 
+        /// <summary>
+        /// Delete grade by id
+        /// </summary>
+        /// <param name="gradeId"></param>
+        /// <returns></returns>
         public Boolean DeleteGradeById(int gradeId)
         {
             return DeleteRecords(DatabaseConstants.GRADES_TABLE, new Tuple<string, object>(DatabaseConstants.GRADES_TABLE_ID, gradeId));
         }
 
+        /// <summary>
+        /// Delete subgroup by id
+        /// </summary>
+        /// <param name="subgroupId"></param>
+        /// <returns></returns>
         public Boolean DeleteSubgroupById(int subgroupId)
         {
             return DeleteRecords(DatabaseConstants.SUBGROUP_TABLE, new Tuple<string, object>(DatabaseConstants.SUBGROUP_TABLE, subgroupId));
         }
 
+        /// <summary>
+        /// Delete all subgroups with specified grade id
+        /// </summary>
+        /// <param name="gradeId"></param>
+        /// <returns></returns>
+        public Boolean DeleteSubgroupByGradeId(int gradeId)
+        {
+            return DeleteRecords(DatabaseConstants.SUBGROUP_TABLE, new Tuple<string, object>(DatabaseConstants.SUBGROUP_TABLE_GRADE_ID, gradeId));
+        }
+
+        /// <summary>
+        /// Delete user by id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public Boolean DeleteUserById(int userId)
         {
             return DeleteRecords(DatabaseConstants.USERS_TABLE, new Tuple<string, object>(DatabaseConstants.USERS_TABLE, userId));
         }
 
+        /// <summary>
+        /// Delete students-subgroups by subgroup id
+        /// </summary>
+        /// <param name="subgroupId"></param>
+        /// <returns></returns>
         public Boolean DeleteSubgroupStudentBySubgroupId(int subgroupId)
         {
             return DeleteRecords(DatabaseConstants.STUDENTS_SUBGROUPS_TABLE, new Tuple<string, object>(DatabaseConstants.STUDENTS_SUBGROUPS_TABLE_SUBGROUP_ID, subgroupId));
         }
 
+        /// <summary>
+        /// Delete subgroups-students by grade id
+        /// </summary>
+        /// <param name="gradeId"></param>
+        /// <returns></returns>
+        public Boolean DeleteSubgroupStudentByGradeId(int gradeId)
+        {
+            var subroups = GetSubgroupsByGradeId(gradeId);
+            if(subroups != null)
+            {
+                foreach (Subgroup subgroup in subroups)
+                {
+                    if (!DeleteRecords(DatabaseConstants.STUDENTS_SUBGROUPS_TABLE, new Tuple<string, object>(DatabaseConstants.STUDENTS_SUBGROUPS_TABLE_SUBGROUP_ID, subgroup.ID)))
+                        return false;
+                }
+            }            
+            return true;
+        }
+
+        /// <summary>
+        /// Delete subgroups-students by student id
+        /// </summary>
+        /// <param name="studentId"></param>
+        /// <returns></returns>
         public Boolean DeleteSubgroupStudentByStudentId(int studentId)
         {
             return DeleteRecords(DatabaseConstants.STUDENTS_SUBGROUPS_TABLE, new Tuple<string, object>(DatabaseConstants.STUDENTS_SUBGROUPS_TABLE_STUDENT_ID, studentId));
@@ -384,7 +493,9 @@ namespace DozorDatabaseLib
                 tableName != DatabaseConstants.GRADES_TABLE &&
                 tableName != DatabaseConstants.MESSAGES_TABLE &&
                 tableName != DatabaseConstants.ATTENDANCE_TABLE &&
-                tableName != DatabaseConstants.USERS_TABLE))
+                tableName != DatabaseConstants.USERS_TABLE &&
+                tableName != DatabaseConstants.SUBGROUP_TABLE &&
+                tableName != DatabaseConstants.STUDENTS_SUBGROUPS_TABLE))
                 return false;
             if (dataTableModel == null)
                 return false;
@@ -431,7 +542,9 @@ namespace DozorDatabaseLib
                 tableName != DatabaseConstants.GRADES_TABLE &&
                 tableName != DatabaseConstants.MESSAGES_TABLE &&
                 tableName != DatabaseConstants.ATTENDANCE_TABLE &&
-                tableName != DatabaseConstants.USERS_TABLE))
+                tableName != DatabaseConstants.USERS_TABLE &&
+                tableName != DatabaseConstants.SUBGROUP_TABLE &&
+                tableName != DatabaseConstants.STUDENTS_SUBGROUPS_TABLE))
                 return false;
             String fieldsString = "ID," + dataTableModel.FieldsString;
             List<Tuple<string, object>> valuesList = dataTableModel.ValuesList;
@@ -472,10 +585,12 @@ namespace DozorDatabaseLib
         {
             if (tableName == null ||
                (tableName != DatabaseConstants.STUDENTS_TABLE &&
-               tableName != DatabaseConstants.GRADES_TABLE &&
-               tableName != DatabaseConstants.MESSAGES_TABLE &&
-               tableName != DatabaseConstants.ATTENDANCE_TABLE &&
-               tableName != DatabaseConstants.USERS_TABLE))
+                tableName != DatabaseConstants.GRADES_TABLE &&
+                tableName != DatabaseConstants.MESSAGES_TABLE &&
+                tableName != DatabaseConstants.ATTENDANCE_TABLE &&
+                tableName != DatabaseConstants.USERS_TABLE &&
+                tableName != DatabaseConstants.SUBGROUP_TABLE &&
+                tableName != DatabaseConstants.STUDENTS_SUBGROUPS_TABLE))
                 return false;
             String sqlQuery = "DELETE FROM " + tableName + " WHERE " +
                               value.Item1 + "=" + "@" + value.Item1;

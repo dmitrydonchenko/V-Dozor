@@ -43,8 +43,8 @@ namespace DozorDbManagement.ViewModels
             }
         }
 
-        private List<GradeModel> grades;
-        public List<GradeModel> Grades
+        private ObservableCollection<GradeModel> grades;
+        public ObservableCollection<GradeModel> Grades
         {
             get { return grades; }
             set
@@ -81,7 +81,6 @@ namespace DozorDbManagement.ViewModels
                 {
                     SelectedStudentModel = Students.ElementAt(0);
                     CurrentRfid = SelectedStudentModel.Rfid;
-                    RaisePropertyChanged("Students");
                 }
                 else
                 {
@@ -122,24 +121,28 @@ namespace DozorDbManagement.ViewModels
             // Get grades list from db
             dozorDatabase = DozorDatabase.Instance;
             var gradesList = dozorDatabase.GetAllGrades();
-            Grades = new List<GradeModel>();
-            foreach(Grade grade in gradesList)
+            Grades = new ObservableCollection<GradeModel>();
+            foreach (Grade grade in gradesList)
             {
                 Grades.Add(new GradeModel(grade.ID, grade.GRADE));
             }
 
             Students = new ObservableCollection<StudentModel>();
-            if(gradesList.Count() > 0)
+            if (gradesList.Count() > 0)
             {
-                var studentsList = dozorDatabase.GetStudentsByGrade(Grades.ElementAt(0).GradeId);                
-                foreach (Student student in studentsList)
-                {
-                    Students.Add(new StudentModel(student.FIRST_NAME, student.MIDDLE_NAME, student.LAST_NAME, student.GRADE_ID, student.RFID));                    
-                }
+                GradeId = gradesList.ElementAt(0).ID;                
                 if (Students.Count > 0)
                 {
                     SelectedStudentModel = Students.ElementAt(0);
                     CurrentRfid = SelectedStudentModel.Rfid;
+                }
+                else
+                {
+                    var studentsList = dozorDatabase.GetStudentsByGrade(Grades.ElementAt(0).GradeId);
+                    foreach (Student student in studentsList)
+                    {
+                        Students.Add(new StudentModel(student.FIRST_NAME, student.MIDDLE_NAME, student.LAST_NAME, student.GRADE_ID, student.RFID));
+                    }
                 }
             }                        
 
@@ -182,6 +185,21 @@ namespace DozorDbManagement.ViewModels
 
         private void UpdateStudent()
         {
+            if (SelectedStudentModel.Rfid == null)
+            {
+                MessageBox.Show("Для обновления ученика необходимо указать RFID его карты", "Информация о запросе", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (SelectedStudentModel.GradeId == -1)
+            {
+                MessageBox.Show("Для обновления ученика необходимо указать класс", "Информация о запросе", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (SelectedStudentModel.FullName == null)
+            {
+                MessageBox.Show("Для обновления ученика необходимо указать его имя", "Информация о запросе", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             selectedStudent.FIRST_NAME = SelectedStudentModel.FirstName;
             selectedStudent.MIDDLE_NAME = SelectedStudentModel.MiddleName;
             selectedStudent.LAST_NAME = SelectedStudentModel.LastName;
@@ -220,7 +238,14 @@ namespace DozorDbManagement.ViewModels
                 {
                     if(dozorDatabase.DeleteStudentById(selectedStudent.ID))
                     {
-                        bool sd = Students.Remove(SelectedStudentModel);
+                        foreach(StudentModel studentModel in Students)
+                        {
+                            if(studentModel.Rfid == selectedStudent.RFID)
+                            {
+                                Students.Remove(studentModel);
+                                break;
+                            }
+                        }
                         RaisePropertyChanged("Students");
                         CurrentRfid = null;
                         if(Students.Count > 0)

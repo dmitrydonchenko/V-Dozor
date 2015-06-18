@@ -28,6 +28,7 @@
                 </StackPanel.Resources>
                 <Label Content="Класс:" TextBlock.FontSize="14" Width="auto"></Label>
                 <ComboBox ItemsSource="{Binding Grades}"
+                                        SelectedItem="{Binding Path=Grade, Mode=TwoWay}"
                                         DisplayMemberPath="Grade"
                                         SelectedValuePath="GradeId"
                                         SelectedValue="{Binding GradeId, Mode=TwoWay}" />

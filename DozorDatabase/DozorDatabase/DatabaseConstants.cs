@@ -75,7 +75,7 @@ namespace DozorDatabaseLib
 
         public static String SUBGROUP_TABLE_ID = "ID";
         public static String SUBGROUP_TABLE_GRADE_ID = "GRADE_ID";
-        public static String SUBGROUP_TABLE_NAME = "NAME";
+        public static String SUBGROUP_TABLE_SUBGROUP = "SUBGROUP";
 
         #endregion
 

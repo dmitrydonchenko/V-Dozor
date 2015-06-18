@@ -101,6 +101,21 @@ namespace DozorDbManagement.ViewModels
 
         public void StudentDbRequest()
         {
+            if(SelectedStudent.Rfid == null)
+            {
+                MessageBox.Show("Для добавления ученика необходимо указать RFID его карты", "Информация о запросе", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if(SelectedStudent.GradeId == -1)
+            {
+                MessageBox.Show("Для добавления ученика необходимо указать класс", "Информация о запросе", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (SelectedStudent.FullName == null)
+            {
+                MessageBox.Show("Для добавления ученика необходимо указать его имя", "Информация о запросе", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             Student student = new Student();
             student.FIRST_NAME = SelectedStudent.FirstName;
             student.MIDDLE_NAME = SelectedStudent.MiddleName;

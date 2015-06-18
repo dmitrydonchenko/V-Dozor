@@ -13,6 +13,8 @@ namespace DozorDbManagement.ViewModels
 {
     public class GradesViewModel : ViewModelBase, IPageViewModel
     {
+        #region properties
+
         public string Name
         {
             get
@@ -43,6 +45,8 @@ namespace DozorDbManagement.ViewModels
 
         DozorDatabase dozorDatabase;
 
+        #endregion
+
         #region Constructor
 
         public GradesViewModel()
@@ -51,10 +55,17 @@ namespace DozorDbManagement.ViewModels
             dozorDatabase = DozorDatabase.Instance;
         }
 
+        #endregion
+
         #region Commands
 
         public void GradeDbRequest()
         {
+            if(CurrentGrade.Grade == null)
+            {
+                MessageBox.Show("Для добавления класса необходимо указать его название", "Информация о запросе", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             Grade grade = new Grade();
             grade.GRADE = CurrentGrade.Grade;
             if (dozorDatabase.InsertGrade(grade))
@@ -101,8 +112,6 @@ namespace DozorDbManagement.ViewModels
                 return _goToDefaultViewCommand;
             }
         }
-
-        #endregion
 
         #endregion
     }

@@ -3,6 +3,7 @@ using DozorDatabaseLib.DataClasses;
 using DozorDbManagement.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,8 +41,8 @@ namespace DozorDbManagement.ViewModels
             }
         }
 
-        private List<GradeModel> grades;
-        public List<GradeModel> Grades
+        private ObservableCollection<GradeModel> grades;
+        public ObservableCollection<GradeModel> Grades
         {
             get { return grades; }
             set
@@ -80,7 +81,7 @@ namespace DozorDbManagement.ViewModels
             dozorDatabase = DozorDatabase.Instance;
 
             var gradesList = dozorDatabase.GetAllGrades();
-            Grades = new List<GradeModel>();
+            Grades = new ObservableCollection<GradeModel>();
             foreach (Grade grade in gradesList)
             {
                 Grades.Add(new GradeModel(grade.ID, grade.GRADE));
@@ -90,6 +91,7 @@ namespace DozorDbManagement.ViewModels
                     selectedGrade.ID = Grades.ElementAt(0).GradeId;
                     selectedGrade.GRADE = Grades.ElementAt(0).Grade;
                     SelectedGradeModel = Grades.ElementAt(0);
+                    GradeId = selectedGrade.ID;
                 }
             }
         }
@@ -109,7 +111,7 @@ namespace DozorDbManagement.ViewModels
             {
                 MessageBox.Show("Класс был успешно отредактирован", "Информация о запросе", MessageBoxButton.OK, MessageBoxImage.Information);
                 var gradesList = dozorDatabase.GetAllGrades();
-                Grades = new List<GradeModel>();
+                Grades = new ObservableCollection<GradeModel>();
                 foreach (Grade grade in gradesList)
                 {
                     Grades.Add(new GradeModel(grade.ID, grade.GRADE));
@@ -118,10 +120,11 @@ namespace DozorDbManagement.ViewModels
                         selectedGrade = new Grade();
                         selectedGrade.ID = Grades.ElementAt(0).GradeId;
                         selectedGrade.GRADE = Grades.ElementAt(0).Grade;
-                        SelectedGradeModel = Grades.ElementAt(0);
+                        SelectedGradeModel = Grades.ElementAt(0);                        
                     }
                 }
                 RaisePropertyChanged("Grades");
+                GradeId = selectedGrade.ID;
             }
             else
             {
@@ -145,25 +148,39 @@ namespace DozorDbManagement.ViewModels
 
         private void DeleteGrade()
         {
-            if (MessageBox.Show("Вы уверены?", "Удаления записи", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Вы уверены? Все подгруппы, входящие в этот класс, будут также удалены", "Удаления записи", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 if (selectedGrade != null)
                 {
-                    if (dozorDatabase.DeleteGradeById(selectedGrade.ID))
+                    if (dozorDatabase.DeleteGradeById(selectedGrade.ID) && 
+                        dozorDatabase.DeleteSubgroupByGradeId(selectedGrade.ID) &&
+                        dozorDatabase.DeleteSubgroupStudentByGradeId(selectedGrade.ID))
                     {
-                        Grades.Remove(SelectedGradeModel);                        
+                        int index = 0;
+                        foreach(GradeModel gradeModel in Grades)
+                        {
+                            if(gradeModel.GradeId == selectedGrade.ID)
+                            {
+                                Grades.RemoveAt(index);
+                                break;
+                            }
+                            index++;
+                        }
+                        RaisePropertyChanged("Grades");
                         if (Grades.Count > 0)
                         {
                             SelectedGradeModel = Grades.ElementAt(0);
-                            selectedGrade = dozorDatabase.GetGradeById(SelectedGradeModel.GradeId);
+                            selectedGrade = new Grade();
+                            selectedGrade.ID = SelectedGradeModel.GradeId;
+                            selectedGrade.GRADE = SelectedGradeModel.Grade;
+                            GradeId = SelectedGradeModel.GradeId;
                         }
                         else
                         {
                             SelectedGradeModel = null;
                             selectedGrade = null;
-                        }
-                        RaisePropertyChanged("Grades");
-                        RaisePropertyChanged("GradeId");
+                            GradeId = -1;
+                        }                        
                         MessageBox.Show("Запись успешно удалена", "Удаление записи", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     else
