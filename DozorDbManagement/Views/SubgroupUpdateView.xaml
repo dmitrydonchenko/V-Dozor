@@ -34,10 +34,10 @@
                                         SelectedValue="{Binding GradeId, Mode=TwoWay}" />
                 <Label Content="Подгруппа:" TextBlock.FontSize="14" Width="auto"></Label>
                 <ComboBox ItemsSource="{Binding Subgroups }"
-                                        SelectedItem="{Binding Path=Subgroup, Mode=TwoWay}"
+                                        SelectedItem="{Binding Path=SelectedSubgroupModel, Mode=TwoWay}"
                                         DisplayMemberPath="Subgroup"
                                         SelectedValuePath="SubgroupId"
-                                        SelectedValue="{Binding SubgroupId, Mode=TwoWay}" />
+                                        SelectedValue="{Binding SelectedSubgroupId, Mode=TwoWay}" />
                 <Button Content="Удалить подгруппу" TextBlock.FontSize="14" 
                     Command="{Binding Path=DeleteSubgroupCommand}"></Button>
             </StackPanel>
@@ -46,10 +46,10 @@
             <StackPanel>
                 <Label Content="Класс:" TextBlock.FontSize="14" ></Label>
                 <ComboBox ItemsSource="{Binding Grades }"
-                                        SelectedItem="{Binding Path=GradeToUpdate, Mode=TwoWay}"
-                                        DisplayMemberPath="GradeToUpdate"
-                                        SelectedValuePath="GradeToUpdateId"
-                                        SelectedValue="{Binding SelectedSubgroupModel.GradeId, Mode=TwoWay}" />
+                                        SelectedItem="{Binding Path=Grade, Mode=TwoWay}"
+                                        DisplayMemberPath="Grade"
+                                        SelectedValuePath="GradeId"
+                                        SelectedValue="{Binding GradeToUpdateId, Mode=TwoWay}" />
                 <Label Content="Название подгруппы:" TextBlock.FontSize="14" ></Label>
                 <TextBox Text="{Binding SelectedSubgroupModel.Subgroup, Mode=TwoWay}" TextBlock.FontSize="14" ></TextBox>
             </StackPanel>

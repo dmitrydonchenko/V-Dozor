@@ -25,6 +25,9 @@
         <DataTemplate DataType="{x:Type view_models:SubgroupUpdateViewModel}">
             <views:SubgroupUpdateView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type view_models:UsersViewModel}">
+            <views:UserView />
+        </DataTemplate>
         <DataTemplate DataType="{x:Type view_models:DefaultViewModel}">
             <views:DefaultView />
         </DataTemplate>        
@@ -51,7 +54,7 @@
                 <MenuItem Header="Изменить подгруппу" Command="{Binding Path=UpdateSubgroupCommand}"></MenuItem>
             </MenuItem>
             <MenuItem Header="Пользователи" TextBlock.FontSize="14">
-                <MenuItem Header="Добавить пользователя"></MenuItem>
+                <MenuItem Header="Добавить пользователя" Command="{Binding Path=AddUserCommand}"></MenuItem>
                 <MenuItem Header="Изменить пользователя"></MenuItem>
             </MenuItem>
         </Menu>

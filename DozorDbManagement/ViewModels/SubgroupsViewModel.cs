@@ -13,7 +13,7 @@ namespace DozorDbManagement.ViewModels
 {
     public class SubgroupsViewModel : ViewModelBase, IPageViewModel
     {
-         #region properties
+        #region properties
 
         public string Name
         {

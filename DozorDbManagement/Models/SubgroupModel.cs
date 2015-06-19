@@ -42,8 +42,9 @@ namespace DozorDbManagement.Models
             }
         }
 
-        public SubgroupModel(Int32 gradeId, String subgroup)
+        public SubgroupModel(Int32 subgroupId, Int32 gradeId, String subgroup)
         {
+            SubgroupId = subgroupId;
             GradeId = gradeId;
             Subgroup = subgroup;
         }

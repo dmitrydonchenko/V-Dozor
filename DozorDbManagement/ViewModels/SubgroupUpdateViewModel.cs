@@ -24,18 +24,18 @@ namespace DozorDbManagement.ViewModels
             }
         }
 
-        private SubgroupModel currentSubgroupModel;
+        private SubgroupModel selectedSubgroupModel;
         public SubgroupModel SelectedSubgroupModel
         {
             get
             {
-                return currentSubgroupModel;
+                return selectedSubgroupModel;
             }
             set
             {
-                if (currentSubgroupModel != value)
+                if (selectedSubgroupModel != value)
                 {
-                    currentSubgroupModel = value;
+                    selectedSubgroupModel = value;
                     RaisePropertyChanged("SelectedSubgroupModel");
                 }
             }
@@ -75,30 +75,43 @@ namespace DozorDbManagement.ViewModels
                     return;
                 foreach (Subgroup subgroup in subgroupsList)
                 {
-                    Subgroups.Add(new SubgroupModel(subgroup.GRADE_ID, subgroup.SUBGROUP));
+                    Subgroups.Add(new SubgroupModel(subgroup.ID, subgroup.GRADE_ID, subgroup.SUBGROUP));
                 }
                 if (Subgroups.Count > 0)
                 {
                     SelectedSubgroupModel = Subgroups.ElementAt(0);
-                    CurrentSubgroupId = SelectedSubgroupModel.SubgroupId;
+                    SelectedSubgroupId = SelectedSubgroupModel.SubgroupId;
                 }
                 else
                 {
                     SelectedSubgroupModel = null;
                     selectedSubgroup = null;
                     SelectedSubgroupModel = null;
+                    SelectedSubgroupId = -1;
                 }
+                RaisePropertyChanged("GradeId");
             }
         }
 
-        private Int32 currentSubgroupId;
-        public Int32 CurrentSubgroupId
+        private Int32 selectedSubgroupId;
+        public Int32 SelectedSubgroupId
         {
-            get { return currentSubgroupId; }
+            get { return selectedSubgroupId; }
             set
             {
-                currentSubgroupId = value;
+                selectedSubgroupId = value;
                 SelectSubgroup();
+            }
+        }
+
+        private Int32 gradeToUpdateId;
+        public Int32 GradeToUpdateId
+        {
+            get { return gradeToUpdateId; }
+            set
+            {
+                gradeToUpdateId = value;
+                RaisePropertyChanged("GradeToUpdateId");
             }
         }
 
@@ -126,14 +139,16 @@ namespace DozorDbManagement.ViewModels
                 Grades.Add(new GradeModel(grade.ID, grade.GRADE));
             }
 
+            SelectedSubgroupId = -1;
             Subgroups = new ObservableCollection<SubgroupModel>();
             if (gradesList.Count() > 0)
             {
-                GradeId = gradesList.ElementAt(0).ID;
+                GradeId = gradesList.ElementAt(0).ID;                
                 if (Subgroups.Count > 0)
                 {
                     SelectedSubgroupModel = Subgroups.ElementAt(0);
-                    CurrentSubgroupId = SelectedSubgroupModel.SubgroupId;
+                    SelectedSubgroupId = SelectedSubgroupModel.SubgroupId;
+                    GradeToUpdateId = SelectedSubgroupModel.GradeId;
                 }
                 else
                 {
@@ -142,7 +157,7 @@ namespace DozorDbManagement.ViewModels
                         return;
                     foreach (Subgroup subgroup in subgroupsList)
                     {
-                        Subgroups.Add(new SubgroupModel(subgroup.GRADE_ID, subgroup.SUBGROUP));
+                        Subgroups.Add(new SubgroupModel(subgroup.ID, subgroup.GRADE_ID, subgroup.SUBGROUP));
                     }
                 }
             }                        
@@ -154,13 +169,15 @@ namespace DozorDbManagement.ViewModels
 
         private void SelectSubgroup()
         {
-            if (CurrentSubgroupId == null)
+            if (SelectedSubgroupId == -1)
                 return;
-            selectedSubgroup = dozorDatabase.GetSubgroupById(CurrentSubgroupId);
+            selectedSubgroup = dozorDatabase.GetSubgroupById(SelectedSubgroupId);
             if (selectedSubgroup != null)
             {
-                SelectedSubgroupModel = new SubgroupModel(selectedSubgroup.GRADE_ID,
+                SelectedSubgroupModel = new SubgroupModel(selectedSubgroup.ID,
+                                                          selectedSubgroup.GRADE_ID,
                                                           selectedSubgroup.SUBGROUP);
+                GradeToUpdateId = SelectedSubgroupModel.GradeId;
             }
         }
 
@@ -170,13 +187,20 @@ namespace DozorDbManagement.ViewModels
 
         private void UpdateSubgroup()
         {
-
-            selectedSubgroup.GRADE_ID = SelectedSubgroupModel.GradeId;
+            if(GradeToUpdateId == -1)
+            {
+                MessageBox.Show("Для редактирования подгруппы укажите класс", "Информация о запросе", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            if (SelectedSubgroupModel.Subgroup == null)
+            {
+                MessageBox.Show("Для редактирования подгруппы укажите её название", "Информация о запросе", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            selectedSubgroup.GRADE_ID = GradeToUpdateId;
             selectedSubgroup.SUBGROUP = SelectedSubgroupModel.Subgroup;
             if (dozorDatabase.UpdateSubgroup(selectedSubgroup))
             {
                 MessageBox.Show("Подгруппа была успешно отредактирована", "Информация о запросе", MessageBoxButton.OK, MessageBoxImage.Information);
-                GradeId = GradeId;
+                GradeId = GradeToUpdateId;
             }
             else
             {
@@ -215,12 +239,14 @@ namespace DozorDbManagement.ViewModels
                             }
                         }
                         RaisePropertyChanged("Subgroups");
-                        CurrentSubgroupId = -1;
+                        SelectedSubgroupId = -1;
+                        GradeToUpdateId = GradeId;
                         if (Subgroups.Count > 0)
                         {
                             SelectedSubgroupModel = Subgroups.ElementAt(0);
-                            CurrentSubgroupId = Subgroups.ElementAt(0).SubgroupId;
-                            selectedSubgroup = dozorDatabase.GetSubgroupById(CurrentSubgroupId);
+                            SelectedSubgroupId = Subgroups.ElementAt(0).SubgroupId;
+                            selectedSubgroup = dozorDatabase.GetSubgroupById(SelectedSubgroupId);
+                            GradeToUpdateId = selectedSubgroup.GRADE_ID;
                         }
                         else
                         {

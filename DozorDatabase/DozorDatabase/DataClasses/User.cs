@@ -9,15 +9,16 @@ namespace DozorDatabaseLib.DataClasses
     public class User : DataTableModel
     {
         public String LOGIN { get; set; }
-        public String PASSWORD { get; set; }
+        public Byte[] PASSWORD { get; set; }
         public String NAME { get; set; }
-
+        public Byte[] SALT { get; set; }
 
         public override string FieldsString
         {
             get { return DatabaseConstants.USERS_TABLE_LOGIN + "," +
                          DatabaseConstants.USERS_TABLE_PASSWORD + "," +
-                         DatabaseConstants.USERS_TABLE_NAME; }
+                         DatabaseConstants.USERS_TABLE_NAME + "," +
+                         DatabaseConstants.USERS_TABLE_SALT; }
         }
 
         public override string ValuesParamsString
@@ -26,7 +27,8 @@ namespace DozorDatabaseLib.DataClasses
             {
                 return "@LOGIN," +
                        "@PASSWORD," +
-                       "@NAME";
+                       "@NAME" + 
+                       "@SALT";
             }
         }
 
@@ -36,7 +38,8 @@ namespace DozorDatabaseLib.DataClasses
             {
                 return new List<Tuple<string, object>> { new Tuple<string, object>("LOGIN", LOGIN),
                                                            new Tuple<string, object>("PASSWORD", PASSWORD),
-                                                           new Tuple<string, object>("NAME", NAME)};
+                                                           new Tuple<string, object>("NAME", NAME),
+                                                           new Tuple<string, object>("SALT", SALT)};
             }
         }
     }

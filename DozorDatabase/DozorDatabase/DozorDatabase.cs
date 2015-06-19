@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
 using Dapper;
 
 namespace DozorDatabaseLib
@@ -36,7 +37,7 @@ namespace DozorDatabaseLib
 
         #endregion
 
-        #region DozorDatabase public methods
+        #region DozorDatabase public requests methods
 
         /// <summary>
         /// Creates an instance of database if none already exists
@@ -117,22 +118,6 @@ namespace DozorDatabaseLib
         public IEnumerable<Grade> GetAllGrades()
         {
             return (IEnumerable<Grade>) GetRecordsFromTable(DatabaseConstants.GRADES_TABLE);
-        }
-
-        /// <summary>
-        /// Returns User by id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public User GetUserById(int id)
-        {
-            var users = GetRecordsFromTable(DatabaseConstants.USERS_TABLE, new string[] { DatabaseConstants.USERS_TABLE_ID }, new string[] { id.ToString() });
-            User user = null;
-            if (users != null)
-            {
-                user = users.ElementAt(0);
-            }
-            return user;
         }
 
         /// <summary>
@@ -259,16 +244,6 @@ namespace DozorDatabaseLib
         }
 
         /// <summary>
-        /// Insert user to db
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        public Boolean InsertUser(User user)
-        {
-            return InsertRecordToDb(DatabaseConstants.USERS_TABLE, user);
-        }
-
-        /// <summary>
         /// Insert subgroup to db
         /// </summary>
         /// <param name="subgroup"></param>
@@ -343,7 +318,7 @@ namespace DozorDatabaseLib
         /// <returns></returns>
         public Boolean DeleteSubgroupById(int subgroupId)
         {
-            return DeleteRecords(DatabaseConstants.SUBGROUP_TABLE, new Tuple<string, object>(DatabaseConstants.SUBGROUP_TABLE, subgroupId));
+            return DeleteRecords(DatabaseConstants.SUBGROUP_TABLE, new Tuple<string, object>(DatabaseConstants.SUBGROUP_TABLE_ID, subgroupId));
         }
 
         /// <summary>
@@ -409,7 +384,7 @@ namespace DozorDatabaseLib
 
         #endregion
 
-        #region DozorDatabase private methods
+        #region DozorDatabase private requests methods
 
         /// <summary>
         /// Returns collection of records from database
@@ -425,7 +400,9 @@ namespace DozorDatabaseLib
                 tableName != DatabaseConstants.GRADES_TABLE &&
                 tableName != DatabaseConstants.MESSAGES_TABLE &&
                 tableName != DatabaseConstants.ATTENDANCE_TABLE &&
-                tableName != DatabaseConstants.USERS_TABLE))
+                tableName != DatabaseConstants.USERS_TABLE &&
+                tableName != DatabaseConstants.SUBGROUP_TABLE &&
+                tableName != DatabaseConstants.STUDENTS_SUBGROUPS_TABLE))
                 return null;
             String sqlQuery = "SELECT * FROM " + tableName;
             int fieldsCount = 0;
@@ -470,6 +447,14 @@ namespace DozorDatabaseLib
                 else if (tableName == DatabaseConstants.ATTENDANCE_TABLE)
                 {
                     tableCollection = connection.Query<Attendance>(sqlQuery);
+                }
+                else if (tableName == DatabaseConstants.SUBGROUP_TABLE)
+                {
+                    tableCollection = connection.Query<Subgroup>(sqlQuery);
+                }
+                else if (tableName == DatabaseConstants.STUDENTS_SUBGROUPS_TABLE)
+                {
+                    tableCollection = connection.Query<StudentSubgroup>(sqlQuery);
                 }
                 connection.Close();
             }
@@ -581,6 +566,12 @@ namespace DozorDatabaseLib
             return true;
         }
 
+        /// <summary>
+        /// Delete records from a table by specified condition
+        /// </summary>
+        /// <param name="tableName">Table name</param>
+        /// <param name="value">Tuple that contains param's name and value</param>
+        /// <returns></returns>
         private Boolean DeleteRecords(String tableName, Tuple<string, object> value)
         {
             if (tableName == null ||
@@ -617,6 +608,145 @@ namespace DozorDatabaseLib
             }
             return true;
         }
+
+        #endregion
+
+        #region Authentification methods
+
+        private byte[] GenerateSalt()
+        {
+            int saltSize = 8;
+
+            byte[] saltBytes = new byte[saltSize];
+
+            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+
+            rng.GetNonZeroBytes(saltBytes);
+
+            return saltBytes;
+        }
+
+        private byte[] ComputeHash(string plainText, byte[] saltBytes = null)
+        {
+            if (saltBytes == null)
+            {
+                saltBytes = GenerateSalt();
+            }
+
+            byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+
+            byte[] plainTextWithSaltBytes = new byte[plainTextBytes.Length + saltBytes.Length];
+
+            // Copy plain text bytes into resulting array.
+            for (int i = 0; i < plainTextBytes.Length; i++)
+                plainTextWithSaltBytes[i] = plainTextBytes[i];
+
+            // Append salt bytes to the resulting array.
+            for (int i = 0; i < saltBytes.Length; i++)
+                plainTextWithSaltBytes[plainTextBytes.Length + i] = saltBytes[i];
+
+            HashAlgorithm hash = new SHA1Managed();
+
+            // Return computed hash value of our plain text with appended salt.
+            return hash.ComputeHash(plainTextWithSaltBytes);
+        }          
+
+        #endregion
+
+        #region Requests to users table
+
+        /// <summary>
+        /// Returns user id by login and password
+        /// </summary>
+        /// <param name="login"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public Int32 getUserIdByLoginAndPassword(String login, String password)
+        {
+            User user = getUserByLogin(login);
+            if (user == null)
+            {
+                return -1;
+            }
+            byte[] saltBytes = user.SALT;
+            byte[] passwordBytes = ComputeHash(password, saltBytes);
+            if (passwordBytes == user.PASSWORD)
+            {
+                return user.ID;
+            }
+            return -1;
+        }
+
+        /// <summary>
+        /// Returns user's login by id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public String getUserLoginById(int userId)
+        {
+            User user = getUserById(userId);
+            if (user != null)
+            {
+                return user.LOGIN;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Returns user's name by id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public String getUserNameById(int userId)
+        {
+            User user = getUserById(userId);
+            if (user != null)
+            {
+                return user.NAME;
+            }
+            return null;
+        }
+
+        private User getUserByLogin(String login)
+        {
+            IEnumerable<User> users = (IEnumerable<User>)GetRecordsFromTable(DatabaseConstants.USERS_TABLE,
+                new string[] { DatabaseConstants.USERS_TABLE_LOGIN },
+                new string[] { login.ToString() });
+            if (users.Count() > 0)
+            {
+                return users.ElementAt(0);
+            }
+            return null;
+        }
+
+        private User getUserById(int userId)
+        {
+            IEnumerable<User> users = (IEnumerable<User>)GetRecordsFromTable(DatabaseConstants.USERS_TABLE,
+                new string[] { DatabaseConstants.USERS_TABLE_ID },
+                new string[] { userId.ToString() });
+            if (users.Count() > 0)
+            {
+                return users.ElementAt(0);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Insert user in db
+        /// </summary>
+        /// <param name="login"></param>
+        /// <param name="password"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Boolean InsertUser(String login, String password, String name)
+        {
+            User user = new User();
+            user.LOGIN = login;
+            user.SALT = GenerateSalt();
+            user.PASSWORD = ComputeHash(password, user.SALT);
+            user.NAME = name;
+            return InsertRecordToDb(DatabaseConstants.USERS_TABLE, user);
+        } 
 
         #endregion
     }

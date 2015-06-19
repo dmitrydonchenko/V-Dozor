@@ -68,6 +68,7 @@ namespace DozorDatabaseLib
         public static String USERS_TABLE_LOGIN = "LOGIN";
         public static String USERS_TABLE_PASSWORD = "PASSWORD";
         public static String USERS_TABLE_NAME = "NAME";
+        public static String USERS_TABLE_SALT = "SALT";
 
         #endregion
 

@@ -101,6 +101,18 @@ namespace DozorDbManagement.ViewModels
             AppContext.CurrentPageViewModel = suvm;
         }
 
+        private void GoToUsersView()
+        {
+            UsersViewModel uvm = new UsersViewModel();
+            AppContext.CurrentPageViewModel = uvm;
+        }
+
+        private void GoToUserUpdateView()
+        {
+            SubgroupUpdateViewModel suvm = new SubgroupUpdateViewModel();
+            AppContext.CurrentPageViewModel = suvm;
+        }
+
         public ICommand AddStudentCommand
         {
             get
@@ -183,7 +195,35 @@ namespace DozorDbManagement.ViewModels
                 }
                 return _updateSubgroupCommand;
             }
-        }       
+        }
+
+        public ICommand AddUserCommand
+        {
+            get
+            {
+                if (_addUserCommand == null)
+                {
+                    _addUserCommand = new RelayCommand(
+                        param => GoToUsersView()
+                    );
+                }
+                return _addUserCommand;
+            }
+        }
+
+        public ICommand UpdateUserCommand
+        {
+            get
+            {
+                if (_updateUserCommand == null)
+                {
+                    _updateUserCommand = new RelayCommand(
+                        param => GoToUserUpdateView()
+                    );
+                }
+                return _updateUserCommand;
+            }
+        }     
 
         public ICommand ChangePageCommand
         {

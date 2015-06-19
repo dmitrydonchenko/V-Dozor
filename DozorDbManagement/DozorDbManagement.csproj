@@ -59,6 +59,7 @@
     <Compile Include="Models\GradeModel.cs" />
     <Compile Include="Models\StudentModel.cs" />
     <Compile Include="Models\SubgroupModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="ViewModels\ApplicationViewModel.cs" />
     <Compile Include="ViewModels\DefaultViewModel.cs" />
     <Compile Include="ViewModels\GradesViewModel.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="ViewModels\StudentUpdateViewModel.cs" />
     <Compile Include="ViewModels\SubgroupsViewModel.cs" />
     <Compile Include="ViewModels\SubgroupUpdateViewModel.cs" />
+    <Compile Include="ViewModels\UsersViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\DefaultView.xaml.cs">
       <DependentUpon>DefaultView.xaml</DependentUpon>
@@ -90,6 +92,9 @@
     </Compile>
     <Compile Include="Views\SubgroupView.xaml.cs">
       <DependentUpon>SubgroupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserView.xaml.cs">
+      <DependentUpon>UserView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -128,6 +133,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SubgroupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
