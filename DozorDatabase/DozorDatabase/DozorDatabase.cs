@@ -96,6 +96,22 @@ namespace DozorDatabaseLib
         }
 
         /// <summary>
+        /// Get students by subgroup id
+        /// </summary>
+        /// <param name="subgroupId"></param>
+        /// <returns></returns>
+        public IEnumerable<Student> GetStudentsBySubgroup(Int32 subgroupId)
+        {
+            var studentsSubgroups = (IEnumerable<StudentSubgroup>)GetRecordsFromTable(DatabaseConstants.STUDENTS_SUBGROUPS_TABLE, new string[] { DatabaseConstants.STUDENTS_SUBGROUPS_TABLE_SUBGROUP_ID }, new string[] { subgroupId.ToString() });
+            List<Student> students = new List<Student>();
+            foreach(StudentSubgroup studentSubgroup in studentsSubgroups)
+            {
+                students.Add(GetStudentById(studentSubgroup.STUDENT_ID));
+            }
+            return (IEnumerable <Student>) students;
+        }
+
+        /// <summary>
         /// Returns Grade by id
         /// </summary>
         /// <param name="id"></param>
@@ -197,6 +213,25 @@ namespace DozorDatabaseLib
                 return subgroups.ElementAt(0);
             }
             return null;
+        }
+
+        /// <summary>
+        /// Checks whether student belongs to subgroup
+        /// </summary>
+        /// <param name="studentId"></param>
+        /// <param name="subgroupId"></param>
+        /// <returns></returns>
+        public Boolean IsStudentInSubgroup(int studentId, int subgroupId)
+        {
+            IEnumerable < StudentSubgroup > studentSubgroup = (IEnumerable<StudentSubgroup>)GetRecordsFromTable(DatabaseConstants.STUDENTS_SUBGROUPS_TABLE,
+                new string[] { DatabaseConstants.STUDENTS_SUBGROUPS_TABLE_STUDENT_ID, DatabaseConstants.STUDENTS_SUBGROUPS_TABLE_SUBGROUP_ID },
+                new string[] { studentId.ToString(), subgroupId.ToString() },
+                new string[] { "AND" });
+            if(studentSubgroup.Count() == 0)
+            {
+                return false;
+            }
+            return true;
         }
 
         #endregion

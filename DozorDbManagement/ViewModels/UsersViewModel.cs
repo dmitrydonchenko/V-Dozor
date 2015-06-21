@@ -59,7 +59,7 @@ namespace DozorDbManagement.ViewModels
         #region Commands
 
         public void UserDbRequest()
-        {
+        {            
             if (CurrentUser.Login == null || CurrentUser.Password == null || CurrentUser.PasswordConfirmation == null)
             {
                 MessageBox.Show("Для добавления пользователя необходимо указать логин и пароль", "Информация о запросе", MessageBoxButton.OK, MessageBoxImage.Error);

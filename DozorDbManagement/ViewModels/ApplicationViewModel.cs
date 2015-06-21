@@ -23,6 +23,7 @@ namespace DozorDbManagement.ViewModels
 
         private ICommand _addSubgroupCommand;
         private ICommand _updateSubgroupCommand;
+        private ICommand _addStudentSubgroupCommand;
 
         private ICommand _addUserCommand;
         private ICommand _updateUserCommand;
@@ -99,6 +100,12 @@ namespace DozorDbManagement.ViewModels
         {
             SubgroupUpdateViewModel suvm = new SubgroupUpdateViewModel();
             AppContext.CurrentPageViewModel = suvm;
+        }
+
+        private void GoToStudentSubgroupView()
+        {
+            StudentSubgroupViewModel ssvm = new StudentSubgroupViewModel();
+            AppContext.CurrentPageViewModel = ssvm;
         }
 
         private void GoToUsersView()
@@ -194,6 +201,20 @@ namespace DozorDbManagement.ViewModels
                     );
                 }
                 return _updateSubgroupCommand;
+            }
+        }
+
+        public ICommand AddStudentSubgroupCommand
+        {
+            get
+            {
+                if (_addStudentSubgroupCommand == null)
+                {
+                    _addStudentSubgroupCommand = new RelayCommand(
+                        param => GoToStudentSubgroupView()
+                    );
+                }
+                return _addStudentSubgroupCommand;
             }
         }
 

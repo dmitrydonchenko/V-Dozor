@@ -152,9 +152,7 @@ namespace DozorDbManagement.ViewModels
             {
                 if (selectedGrade != null)
                 {
-                    if (dozorDatabase.DeleteGradeById(selectedGrade.ID) && 
-                        dozorDatabase.DeleteSubgroupByGradeId(selectedGrade.ID) &&
-                        dozorDatabase.DeleteSubgroupStudentByGradeId(selectedGrade.ID))
+                    if (dozorDatabase.DeleteGradeById(selectedGrade.ID))
                     {
                         int index = 0;
                         foreach(GradeModel gradeModel in Grades)

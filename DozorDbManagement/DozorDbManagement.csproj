@@ -66,6 +66,7 @@
     <Compile Include="ViewModels\GradeUpdateViewModel.cs" />
     <Compile Include="ViewModels\IPageViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
+    <Compile Include="ViewModels\StudentSubgroupViewModel.cs" />
     <Compile Include="ViewModels\StudentsViewModel.cs" />
     <Compile Include="ViewModels\StudentUpdateViewModel.cs" />
     <Compile Include="ViewModels\SubgroupsViewModel.cs" />
@@ -80,6 +81,9 @@
     </Compile>
     <Compile Include="Views\GradeView.xaml.cs">
       <DependentUpon>GradeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StudentsSubgroupView.xaml.cs">
+      <DependentUpon>StudentsSubgroupView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StudentUpdateView.xaml.cs">
       <DependentUpon>StudentUpdateView.xaml</DependentUpon>
@@ -117,6 +121,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GradeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StudentsSubgroupView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

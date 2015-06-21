@@ -27,7 +27,14 @@ namespace DozorDbManagement.Views
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
+            if (this.DataContext != null)
+            { ((dynamic)this.DataContext).CurrentUser.Password = ((PasswordBox)sender).Password; }
+        }
 
+        private void PasswordConfirmationBox_PasswordConfirmationChanged(object sender, RoutedEventArgs e)
+        {
+            if (this.DataContext != null)
+            { ((dynamic)this.DataContext).CurrentUser.PasswordConfirmation = ((PasswordBox)sender).Password; }
         }
     }
 }

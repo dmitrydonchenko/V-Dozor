@@ -27,7 +27,7 @@ namespace DozorDatabaseLib.DataClasses
             {
                 return "@LOGIN," +
                        "@PASSWORD," +
-                       "@NAME" + 
+                       "@NAME," + 
                        "@SALT";
             }
         }

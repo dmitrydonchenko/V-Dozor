@@ -8,8 +8,8 @@ namespace DozorDatabaseLib.DataClasses
 {
     public class StudentSubgroup : DataTableModel
     {
-        public String STUDENT_ID { get; set; }
-        public String SUBGROUP_ID { get; set; }
+        public Int32 STUDENT_ID { get; set; }
+        public Int32 SUBGROUP_ID { get; set; }
 
         public override string FieldsString
         {
