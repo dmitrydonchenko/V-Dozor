@@ -19,7 +19,7 @@ namespace DozorUsbLib
         /// <summary>
         /// Rfid update event
         /// </summary>
-        public event EventHandler<String> Rfid_Updated;
+        public event EventHandler<RfidReaderEventArgs> Rfid_Updated;
 
         private RfidReader()
         {
@@ -34,7 +34,12 @@ namespace DozorUsbLib
             rcon.DevicesList.OpenDevices();
             foreach (DeviceRecieverBase device in rcon.DevicesList.DevicesList)
             {
-                device.DataRecieved += new EventHandler<DeviceDataArgs>(DevicesList_DataRecieved);
+                //device.DataRecieved += new EventHandler<DeviceDataArgs>(DevicesList_DataRecieved);
+                device.DataRecieved += (sender, eventArgs) =>
+                {
+                    RfidReaderEventArgs args = new RfidReaderEventArgs(eventArgs.Data.ButtonsCodes, device.ID);
+                    Rfid_Updated(this, args);
+                };
             }
             //rcon.DevicesList.DataRecieved += new EventHandler<DeviceDataArgs>(DevicesList_DataRecieved);
         }        
@@ -62,7 +67,7 @@ namespace DozorUsbLib
             rcon.DevicesList.CloseDevices();
         }
 
-        protected virtual void onRfidUpdated(String rfid)
+        /*protected virtual void onRfidUpdated(String rfid)
         {
             if(Rfid_Updated != null)
             {
@@ -73,6 +78,6 @@ namespace DozorUsbLib
         private void DevicesList_DataRecieved(object sender, DeviceDataArgs e)
         {
             onRfidUpdated(e.Data.ButtonsCodes);
-        }
+        }*/
     }
 }

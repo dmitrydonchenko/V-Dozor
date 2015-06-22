@@ -2,6 +2,7 @@
 using DozorDatabaseLib;
 using DozorDatabaseLib.DataClasses;
 using DozorMediaLib.Video;
+using DozorUsbLib;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -108,22 +109,26 @@ namespace dozor_live.ViewModels
 
         private DateTime currentDateTime;
         private Student currentStudent;
-        
+
+        private Dictionary<Int32, Int32> receivers;
 
         #endregion
 
-        public StudentsViewModel(String rfid, Bitmap snapshot, DateTime dateTime)
+        public StudentsViewModel(RfidReaderEventArgs args, Bitmap snapshot, DateTime dateTime)
         {
             Students = new StudentModel[2];
-            AddNewStudent(rfid, snapshot, dateTime);                  
+            receivers = new Dictionary<int, int>();
+            AddNewStudent(args, snapshot, dateTime);                  
         }        
 
-        public void AddNewStudent(String rfid, Bitmap snapshot, DateTime dateTime)
+        public void AddNewStudent(RfidReaderEventArgs args, Bitmap snapshot, DateTime dateTime)
         {
+            if(!receivers.ContainsKey(args.ReceiverId))
+                receivers[args.ReceiverId] = receivers.Count;
             DozorDatabase dozorDatabase = DozorDatabase.Instance;
 
             // Getting student from db
-            currentStudent = dozorDatabase.GetStudentByRfid(rfid);
+            currentStudent = dozorDatabase.GetStudentByRfid(args.Rfid);
             BitmapImage bitmapSource = ConvertToBitmapImage(snapshot);
             bitmapSource.Freeze();            
             currentDateTime = dateTime;
@@ -146,34 +151,20 @@ namespace dozor_live.ViewModels
             }            
             
             dozorDatabase.InsertAttendance(attendance);
-            SetStudents(attendance.IS_IN, bitmapSource);
+            SetStudents(attendance.IS_IN, bitmapSource, receivers[args.ReceiverId]);
         }
 
-        private void SetStudents(Boolean isIn, BitmapImage bitmapSource)
+        private void SetStudents(Boolean isIn, BitmapImage bitmapSource, int studentIndex)
         {
             DozorDatabase dozorDatabase = DozorDatabase.Instance;
 
             int curStudentIndex;
-            if(Students[0] == null)
-            {
-                curStudentIndex = 0;
+            curStudentIndex = studentIndex;
+            if (studentIndex == 0)
                 Snapshot1 = bitmapSource;
-            }
-            else if(Students[1] == null)
-            {
-                curStudentIndex = 1;
-                Snapshot2= bitmapSource;
-            }
-            else if(Students[0].AttendanceDateTime <= Students[1].AttendanceDateTime)
-            {
-                curStudentIndex = 0;
-                Snapshot1 = bitmapSource;
-            }
             else
-            {
-                curStudentIndex = 1;
                 Snapshot2 = bitmapSource;
-            }
+
             // Setting StudentModel           
             Students[curStudentIndex] = new StudentModel(currentStudent.FIRST_NAME);
             IEnumerable<Message> studentMessages = dozorDatabase.GetStudentMessages(currentStudent.ID, currentStudent.GRADE_ID);

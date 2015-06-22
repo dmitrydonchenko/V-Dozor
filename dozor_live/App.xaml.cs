@@ -41,7 +41,7 @@ namespace dozor_live
             // Start Usb Service
             currentRfid = "";
             rfidReader = RfidReader.Instance;
-            rfidReader.Rfid_Updated += new EventHandler<string>(RfidReceived);
+            rfidReader.Rfid_Updated += new EventHandler<RfidReaderEventArgs>(RfidReceived);
         }
 
         protected override void OnExit(ExitEventArgs e)
@@ -50,19 +50,19 @@ namespace dozor_live
             base.OnExit(e);
         }
 
-        private void RfidReceived(object sender, String rfid)
+        private void RfidReceived(object sender, RfidReaderEventArgs args)
         {
-            if (currentRfid != rfid)
+            if (currentRfid != args.Rfid)
             {
-                currentRfid = rfid;                
+                currentRfid = args.Rfid;                
                 if(ApplicationViewModel.AppContext.CurrentPageViewModel.Name != "StudentsViewModel")
                 {
-                    StudentsViewModel svm = new StudentsViewModel(rfid, webcamCapture.Capture(), DateTime.Now);
+                    StudentsViewModel svm = new StudentsViewModel(args, webcamCapture.Capture(), DateTime.Now);
                     ApplicationViewModel.AppContext.CurrentPageViewModel = svm;
                 }
                 else
                 {
-                    ((StudentsViewModel)ApplicationViewModel.AppContext.CurrentPageViewModel).AddNewStudent(rfid, webcamCapture.Capture(), DateTime.Now);
+                    ((StudentsViewModel)ApplicationViewModel.AppContext.CurrentPageViewModel).AddNewStudent(args, webcamCapture.Capture(), DateTime.Now);
                 }
             }
         }

@@ -148,18 +148,18 @@ namespace DozorDbManagement.ViewModels
 
             //Start Usb Service
             rfidReader = RfidReader.Instance;
-            rfidReader.Rfid_Updated += new EventHandler<string>(RfidReceived);
+            rfidReader.Rfid_Updated += new EventHandler<RfidReaderEventArgs>(RfidReceived);
         }
 
         #endregion
 
         #region methods
 
-        private void RfidReceived(object sender, String rfid)
+        private void RfidReceived(object sender, RfidReaderEventArgs args)
         {
-            if (CurrentRfid != rfid)
+            if (CurrentRfid != args.Rfid)
             {
-                CurrentRfid = rfid;
+                CurrentRfid = args.Rfid;
                 SelectStudent();                          
             }
         }

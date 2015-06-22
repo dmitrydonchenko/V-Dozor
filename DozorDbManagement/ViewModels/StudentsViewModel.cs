@@ -75,23 +75,23 @@ namespace DozorDbManagement.ViewModels
 
             //Start Usb Service
             rfidReader = RfidReader.Instance;
-            rfidReader.Rfid_Updated += new EventHandler<string>(RfidReceived);
+            rfidReader.Rfid_Updated += new EventHandler<RfidReaderEventArgs>(RfidReceived);
         }
 
         #endregion
 
         #region methods
 
-        private void RfidReceived(object sender, String rfid)
+        private void RfidReceived(object sender, RfidReaderEventArgs args)
         {
-            if (SelectedStudent.Rfid != rfid)
+            if (SelectedStudent.Rfid != args.Rfid)
             {
-                if(dozorDatabase.GetStudentByRfid(rfid) != null)
+                if (dozorDatabase.GetStudentByRfid(args.Rfid) != null)
                 {
                     MessageBox.Show("Ученик с таким RFID уже существует", "Добавление ученика", MessageBoxButton.OK, MessageBoxImage.Information);
                     return;
                 }
-                SelectedStudent.Rfid = rfid;
+                SelectedStudent.Rfid = args.Rfid;
             }
         }
 
