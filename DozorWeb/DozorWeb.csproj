@@ -126,6 +126,7 @@
     <Compile Include="Models\GradeModel.cs" />
     <Compile Include="Models\MessageSendingViewModel.cs" />
     <Compile Include="Models\StudentModel.cs" />
+    <Compile Include="Models\SubgroupModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

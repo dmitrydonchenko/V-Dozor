@@ -11,38 +11,113 @@ namespace DozorWeb.Controllers
 {
     public class MessageController : Controller
     {
-        // GET: Message
-        public ActionResult MessageSending(string button, int gradeId = 0, int studentId = -1, int duration = 1, String messageText = "")
+        public ActionResult MessageSending()
         {
-            ViewBag.Message = "Страница для просмотра и отправки сообщений.";
+            ViewBag.Message = "Страница для отправки сообщений.";
             MessageSendingViewModel viewModel = new MessageSendingViewModel();
-            viewModel.SelectedGradeId = gradeId;
-            viewModel.Grades = viewModel.GetAllGrades();
-            viewModel.Students = viewModel.GetStudentsByGrade(gradeId);
-            if(button == "submit")
+            var grades = viewModel.GetAllGrades();
+            viewModel.Grades = grades;
+            if (grades.Count() > 0)
+            {
+                viewModel.Students = viewModel.GetStudents(Int32.Parse(grades.ElementAt(0).Value), -1);
+                viewModel.Subgroups = viewModel.GetSubgroupsByGrade(Int32.Parse(grades.ElementAt(0).Value));
+            }     
+            return View(viewModel);
+        }
+
+        private IEnumerable<SelectListItem> GetGrades()
+        {
+            DozorDatabase dozorDatabase = DozorDatabase.Instance;
+            IEnumerable<Grade> grades = dozorDatabase.GetAllGrades();
+            List<GradeModel> gradesModels = new List<GradeModel>();
+            foreach (Grade grade in grades)
+            {
+                gradesModels.Add(new GradeModel(grade.ID, grade.GRADE));
+            }
+            ViewData["Grades"] = new SelectList(gradesModels,
+                                  "GradeId",
+                                  "Grade");
+            return new SelectList(gradesModels,
+                                  "GradeId",
+                                  "Grade");
+        }
+
+        public ActionResult GetStudents(int gradeId, int subgroupId)
+        {
+            DozorDatabase dozorDatabase = DozorDatabase.Instance;
+            IEnumerable<Student> students;
+            if(subgroupId == -1)
+            {
+                students = dozorDatabase.GetStudentsByGrade(gradeId);
+            }
+            else
+            {
+                students = dozorDatabase.GetStudentsBySubgroup(subgroupId);
+            }            
+            List<StudentModel> studentsModels = new List<StudentModel>();
+            studentsModels.Add(new StudentModel(-1, "Все ученики"));
+            foreach (Student student in students)
+            {
+                studentsModels.Add(new StudentModel(student.ID, student.FIRST_NAME + " " +
+                                                                student.MIDDLE_NAME + " " +
+                                                                student.LAST_NAME));
+            }
+            return Json(studentsModels, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetSubgroups(int gradeId)
+        {
+            DozorDatabase dozorDatabase = DozorDatabase.Instance;
+            IEnumerable<Subgroup> subgroups = dozorDatabase.GetSubgroupsByGradeId(gradeId);
+            List<SubgroupModel> subgroupsModels = new List<SubgroupModel>();
+            subgroupsModels.Add(new SubgroupModel(-1, "Все ученики"));
+            foreach (Subgroup subgroup in subgroups)
+            {
+                subgroupsModels.Add(new SubgroupModel(subgroup.ID, subgroup.SUBGROUP));
+            }
+
+            JsonResult jsonResult = new JsonResult();
+            jsonResult = Json(subgroupsModels, JsonRequestBehavior.AllowGet);
+            return jsonResult;
+        }
+
+        public void SendMessage(int gradeId, int subgroupId, int studentId, String messageText)
+        {
+            if (messageText == null || (gradeId == -1 && studentId == -1 && subgroupId == -1))
+                return;            
+            DozorDatabase dozorDatabase = DozorDatabase.Instance;
+            if(studentId != -1)
             {
                 Message message = new Message();
-                message.IS_PERSONAL_MESSAGE = studentId == -1 ? false : true;
-                if (message.IS_PERSONAL_MESSAGE)
-                {
-                    message.STUDENT_ID = studentId;
-                    message.GRADE_ID = -1;
-                }
-                else
-                {
-                    message.STUDENT_ID = -1;
-                    message.GRADE_ID = gradeId;
-                }
-                message.MESSAGE_TEXT = messageText;
                 message.DATETIME = DateTime.Now;
-                message.EXPIRATION_DATETIME = DateTime.Now.AddDays(duration);
-                DozorDatabase dozorDatabase = DozorDatabase.Instance;
-                if(dozorDatabase.InsertMessage(message))
+                message.MESSAGE_TEXT = messageText;
+                message.STUDENT_ID = studentId;
+                dozorDatabase.InsertMessage(message);
+            }
+            else if(subgroupId != -1)
+            {
+                IEnumerable<Student> students = dozorDatabase.GetStudentsBySubgroup(subgroupId);
+                foreach(Student student in students)
                 {
-                    return RedirectToAction("Index", "Home");
+                    Message message = new Message();
+                    message.DATETIME = DateTime.Now;
+                    message.MESSAGE_TEXT = messageText;
+                    message.STUDENT_ID = student.ID;
+                    dozorDatabase.InsertMessage(message);
                 }
             }
-            return View(viewModel);
+            else if(gradeId != -1)
+            {
+                IEnumerable<Student> students = dozorDatabase.GetStudentsByGrade(gradeId);
+                foreach (Student student in students)
+                {
+                    Message message = new Message();
+                    message.DATETIME = DateTime.Now;
+                    message.MESSAGE_TEXT = messageText;
+                    message.STUDENT_ID = student.ID;
+                    dozorDatabase.InsertMessage(message);
+                }
+            }                  
         }
     }
 }

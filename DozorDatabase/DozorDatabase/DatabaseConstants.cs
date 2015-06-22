@@ -43,7 +43,6 @@ namespace DozorDatabaseLib
         public static String MESSAGES_TABLE_ID = "ID";
         public static String MESSAGES_TABLE_IS_PERSONAL_MESSAGE = "IS_PERSONAL_MESSAGE";
         public static String MESSAGES_TABLE_STUDENT_ID = "STUDENT_ID";
-        public static String MESSAGES_TABLE_GRADE_ID = "GRADE_ID";
         public static String MESSAGES_TABLE_MESSAGE_TEXT = "MESSAGE_TEXT";
         public static String MESSAGES_TABLE_MESSAGE_AUDIO = "MESSAGE_AUDIO";
         public static String MESSAGES_TABLE_DATETIME = "DATETIME";

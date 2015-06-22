@@ -13,7 +13,6 @@ namespace DozorWeb.Models
         public Int32 SelectedGradeId { get; set; }
         public Int32 SelectedStudentId { get; set; }
         public String AttendanciesDateTime { get; set; }
-        //public String InitDateTime { get; set; }
 
         public SelectList Grades { get; set; }
         public IEnumerable<SelectListItem> Students { get; set; }
@@ -24,8 +23,6 @@ namespace DozorWeb.Models
             Students = Enumerable.Empty<SelectListItem>();
             SelectedStudentId = 0;
             AttendanciesDateTime = DateTime.Now.ToString("MM/dd/yyyy");
-            //AttendanciesDateTime = AttendanciesDateTime.Date;
-            //InitDateTime = AttendanciesDateTime.Month + "//" + AttendanciesDateTime.Day + "//" + AttendanciesDateTime.Year;
         }
 
         public SelectList GetAllGrades()

@@ -145,8 +145,8 @@ namespace DozorDatabaseLib
         public IEnumerable<Message> GetStudentMessages(int _StudentId, int _GradeId)
         {
             IEnumerable<Message> messages = (IEnumerable<Message>) GetRecordsFromTable(DatabaseConstants.MESSAGES_TABLE,
-                new string[] { DatabaseConstants.MESSAGES_TABLE_STUDENT_ID, DatabaseConstants.MESSAGES_TABLE_GRADE_ID },
-                new string[] { _StudentId.ToString(), _GradeId.ToString() }, new string [] { "OR" });
+                new string[] { DatabaseConstants.MESSAGES_TABLE_STUDENT_ID },
+                new string[] { _StudentId.ToString() } );
             return messages;  
         }
 

@@ -8,9 +8,7 @@ namespace DozorDatabaseLib.DataClasses
 {
     public class Message : DataTableModel
     {
-        public Boolean IS_PERSONAL_MESSAGE { get; set; }
         public Int32 STUDENT_ID { get; set; }
-        public Int32 GRADE_ID { get; set; }
         public String MESSAGE_TEXT { get; set; }
         public Byte[] MESSAGE_AUDIO { get; set; }
         public DateTime DATETIME { get; set; }
@@ -21,9 +19,7 @@ namespace DozorDatabaseLib.DataClasses
         {
             get 
             { 
-                return DatabaseConstants.MESSAGES_TABLE_IS_PERSONAL_MESSAGE + "," +
-                       DatabaseConstants.MESSAGES_TABLE_STUDENT_ID + "," +
-                       DatabaseConstants.MESSAGES_TABLE_GRADE_ID + "," + 
+                return DatabaseConstants.MESSAGES_TABLE_STUDENT_ID + "," +
                        DatabaseConstants.MESSAGES_TABLE_MESSAGE_TEXT + "," +
                        DatabaseConstants.MESSAGES_TABLE_MESSAGE_AUDIO + "," +
                        DatabaseConstants.MESSAGES_TABLE_DATETIME + "," +
@@ -36,9 +32,7 @@ namespace DozorDatabaseLib.DataClasses
         {
             get
             {
-                return "@IS_PERSONAL_MESSAGE," + 
-                       "@STUDENT_ID," + 
-                       "@GRADE_ID," + 
+                return "@STUDENT_ID," + 
                        "@MESSAGE_TEXT," + 
                        "@MESSAGE_AUDIO," + 
                        "@DATETIME," + 
@@ -51,9 +45,7 @@ namespace DozorDatabaseLib.DataClasses
         {
             get
             {
-                return new List<Tuple<string, object>> { new Tuple<string, object>("IS_PERSONAL_MESSAGE", IS_PERSONAL_MESSAGE),
-                                                         new Tuple<string, object>("STUDENT_ID", STUDENT_ID),
-                                                         new Tuple<string, object>("GRADE_ID", GRADE_ID),
+                return new List<Tuple<string, object>> { new Tuple<string, object>("STUDENT_ID", STUDENT_ID),
                                                          new Tuple<string, object>("MESSAGE_TEXT", MESSAGE_TEXT),
                                                          new Tuple<string, object>("MESSAGE_AUDIO", MESSAGE_AUDIO),
                                                          new Tuple<string, object>("DATETIME", DATETIME),
