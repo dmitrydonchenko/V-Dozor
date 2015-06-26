@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DozorDatabaseLib.DatabaseConstants" Collapsed="true">
+    <Position X="5.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAgEUEAQAYICkqAQBAACFIgEAAhAACQCAQACUKQ=</HashCode>
+      <FileName>DatabaseConstants.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDatabaseLib.DozorDatabase" Collapsed="true">
+    <Position X="8" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UAgBJoBAEQANQAIEQFADAokEAUBAAMEYRAEBCABAAAA=</HashCode>
+      <FileName>DozorDatabase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDatabaseLib.DataClasses.Attendance" Collapsed="true">
+    <Position X="9.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACCAEAAAAAAAAAQAAAAAAAAAAAAAQAgAAAAAAAACA=</HashCode>
+      <FileName>DataClasses\Attendance.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDatabaseLib.DataClasses.DataTableModel" Collapsed="true">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAEAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataClasses\DataTableModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDatabaseLib.DataClasses.Grade" Collapsed="true">
+    <Position X="0.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQACAAEAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataClasses\Grade.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDatabaseLib.DataClasses.Message" Collapsed="true">
+    <Position X="5.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAEAAACAAAAAQAAAAAAAAAAAAIQAgACABAAAAAA=</HashCode>
+      <FileName>DataClasses\Message.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDatabaseLib.DataClasses.Student" Collapsed="true">
+    <Position X="12" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAUAAAAAAAAAQAAAAAAAACAAAAAAAABgAAABAAA=</HashCode>
+      <FileName>DataClasses\Student.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDatabaseLib.DataClasses.StudentSubgroup" Collapsed="true">
+    <Position X="14.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAEAAAAAAAAIQAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>DataClasses\StudentSubgroup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDatabaseLib.DataClasses.Subgroup" Collapsed="true">
+    <Position X="3" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAEAAAAAAAAAQAAAAAQAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataClasses\Subgroup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDatabaseLib.DataClasses.User" Collapsed="true">
+    <Position X="7.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAEEAAAAEAACQAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>DataClasses\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

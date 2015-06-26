@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DozorDbManagement.App" Collapsed="true">
+    <Position X="32.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDbManagement.MainWindow" Collapsed="true">
+    <Position X="32.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDbManagement.Models.GradeModel" Collapsed="true">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEQAAABEAAAA=</HashCode>
+      <FileName>Models\GradeModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDbManagement.Models.StudentModel" Collapsed="true">
+    <Position X="11.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAEBAAIBAAACQAAAAEAAAAAAAEAAACBAAAAg=</HashCode>
+      <FileName>Models\StudentModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDbManagement.Models.SubgroupModel" Collapsed="true">
+    <Position X="18.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAFAAAEA=</HashCode>
+      <FileName>Models\SubgroupModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDbManagement.Models.UserModel" Collapsed="true">
+    <Position X="25.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAgAAAAAACAAAAAwAAAAEAAACAAAQAgAAEAA=</HashCode>
+      <FileName>Models\UserModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDbManagement.Properties.Resources" Collapsed="true">
+    <Position X="35.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDbManagement.Properties.Settings" Collapsed="true">
+    <Position X="37.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDbManagement.ViewModels.ApplicationViewModel" Collapsed="true">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAEAARAQAAiAAEJEBESAQAACDIAAkACyAAEZACDAA=</HashCode>
+      <FileName>ViewModels\ApplicationViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDbManagement.ViewModels.DefaultViewModel" Collapsed="true">
+    <Position X="14" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\DefaultViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DozorDbManagement.ViewModels.GradesViewModel" Collapsed="true">
+    <Position X="20.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABCAAAAAAAAAAAAAAAAAAAyAAQAAgAAQAAgAAAAABAA=</HashCode>
+      <FileName>ViewModels\GradesViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DozorDbManagement.ViewModels.GradeUpdateViewModel" Collapsed="true">
+    <Position X="27.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IBCAEAAIAAABAgCAIAAAAAQEAQAAACAQEQAAABEAAAA=</HashCode>
+      <FileName>ViewModels\GradeUpdateViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DozorDbManagement.ViewModels.RelayCommand" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="34" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEACAAQAAECAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\RelayCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DozorDbManagement.ViewModels.StudentSubgroupViewModel" Collapsed="true">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AECAQQAkgAACAAEAAAAACEQAAQBAgAgAEcAGABEAY0A=</HashCode>
+      <FileName>ViewModels\StudentSubgroupViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DozorDbManagement.ViewModels.StudentsViewModel" Collapsed="true">
+    <Position X="16.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABCAAAAAAAEgAAAAAAAAIAQCAQAAAgAYAQAIAAEAAAA=</HashCode>
+      <FileName>ViewModels\StudentsViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DozorDbManagement.ViewModels.StudentUpdateViewModel" Collapsed="true">
+    <Position X="23" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABKAAQAEAAAEAEAAAAAAAAQCAQQAAAgYGQAAABFCCgE=</HashCode>
+      <FileName>ViewModels\StudentUpdateViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DozorDbManagement.ViewModels.SubgroupsViewModel" Collapsed="true">
+    <Position X="29.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABKgAAAAAAAAEAAAAAAAAAQAAQAAAAAQAQACAAEAAgA=</HashCode>
+      <FileName>ViewModels\SubgroupsViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DozorDbManagement.ViewModels.SubgroupUpdateViewModel" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ADiAQAAgAAAAAAAAAAAAAAQAQQAAiBAQFYAAAJEgBUA=</HashCode>
+      <FileName>ViewModels\SubgroupUpdateViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DozorDbManagement.ViewModels.UsersViewModel" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABCAAAAAAIAAAACAAAAgAAQAAQAACAAQAAQAAAAAAAA=</HashCode>
+      <FileName>ViewModels\UsersViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DozorDbManagement.ViewModels.ViewModelBase" Collapsed="true">
+    <Position X="15.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAIAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\ViewModelBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DozorDbManagement.Views.DefaultView" Collapsed="true">
+    <Position X="34" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\DefaultView.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDbManagement.Views.GradeUpdateView" Collapsed="true">
+    <Position X="35.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\GradeUpdateView.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDbManagement.Views.GradeView" Collapsed="true">
+    <Position X="37.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\GradeView.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDbManagement.Views.StudentsSubgroupView" Collapsed="true">
+    <Position X="32.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\StudentsSubgroupView.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDbManagement.Views.StudentUpdateView" Collapsed="true">
+    <Position X="34" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Views\StudentUpdateView.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDbManagement.Views.StudentView" Collapsed="true">
+    <Position X="35.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\StudentView.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDbManagement.Views.SubgroupUpdateView" Collapsed="true">
+    <Position X="37.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\SubgroupUpdateView.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDbManagement.Views.SubgroupView" Collapsed="true">
+    <Position X="32.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\SubgroupView.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorDbManagement.Views.UserView" Collapsed="true">
+    <Position X="34" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\UserView.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="DozorDbManagement.ViewModels.IPageViewModel" Collapsed="true">
+    <Position X="32.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ViewModels\IPageViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -20,15 +20,27 @@ namespace dozor_live.Models
                 messageText = value;
                 base.RaisePropertyChanged("MessageText");
             }
-        }        
+        }
+
+        private Int32 messagePriority;
+        public Int32 MessagePriority
+        {
+            get { return messagePriority; }
+            set
+            {
+                messagePriority = value;
+                base.RaisePropertyChanged("MessagePriority");
+            }
+        }
 
         #endregion
 
         #region constructor
 
-        public MessageModel(String _MessageText)
+        public MessageModel(String messageText, int messagePriority)
         {
-            MessageText = _MessageText;
+            MessageText = messageText;
+            MessagePriority = messagePriority;
         }
         #endregion
     }

@@ -34,16 +34,7 @@ namespace dozor_live.ViewModels
         }
 
         private ApplicationViewModel()
-        {
-            // Create Database instance "D:\\Votum\\DozorDatabase\\Students.fdbB;"
-            FbConnectionStringBuilder connectString = new FbConnectionStringBuilder();
-            connectString.Database = "D:\\Votum\\DozorDatabase\\Students.fdb";
-            connectString.Dialect = 3;
-            connectString.UserID = "SYSDBA";
-            connectString.Password = "masterkey";
-            connectString.Charset = "win1251";
-            DozorDatabase.CreateInstance(connectString.ConnectionString);
-
+        {          
             // Add available pages
             PageViewModels.Add(new DefaultViewModel());
 

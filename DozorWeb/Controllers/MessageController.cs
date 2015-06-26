@@ -45,7 +45,7 @@ namespace DozorWeb.Controllers
         public ActionResult GetStudents(int gradeId, int subgroupId)
         {
             DozorDatabase dozorDatabase = DozorDatabase.Instance;
-            IEnumerable<Student> students;
+            IEnumerable<Student> students = new List<Student>();
             if(subgroupId == -1)
             {
                 students = dozorDatabase.GetStudentsByGrade(gradeId);
@@ -81,18 +81,20 @@ namespace DozorWeb.Controllers
             return jsonResult;
         }
 
-        public void SendMessage(int gradeId, int subgroupId, int studentId, String messageText)
+        public JsonResult SendMessage(int gradeId, int subgroupId, int studentId, String messageText)
         {
             if (messageText == null || (gradeId == -1 && studentId == -1 && subgroupId == -1))
-                return;            
+                return Json("Выберите адресата сообщения", JsonRequestBehavior.AllowGet);           
             DozorDatabase dozorDatabase = DozorDatabase.Instance;
+            Boolean res = true;
             if(studentId != -1)
             {
                 Message message = new Message();
                 message.DATETIME = DateTime.Now;
                 message.MESSAGE_TEXT = messageText;
                 message.STUDENT_ID = studentId;
-                dozorDatabase.InsertMessage(message);
+                message.MESSAGE_PRIORITY = 2;
+                res &= dozorDatabase.InsertMessage(message);
             }
             else if(subgroupId != -1)
             {
@@ -103,7 +105,8 @@ namespace DozorWeb.Controllers
                     message.DATETIME = DateTime.Now;
                     message.MESSAGE_TEXT = messageText;
                     message.STUDENT_ID = student.ID;
-                    dozorDatabase.InsertMessage(message);
+                    message.MESSAGE_PRIORITY = 1;
+                    res &= dozorDatabase.InsertMessage(message);
                 }
             }
             else if(gradeId != -1)
@@ -111,13 +114,23 @@ namespace DozorWeb.Controllers
                 IEnumerable<Student> students = dozorDatabase.GetStudentsByGrade(gradeId);
                 foreach (Student student in students)
                 {
+                    Grade grade = dozorDatabase.GetGradeById(gradeId);
+                    if (grade == null)
+                        return Json(false);
+                    String gradeName = grade.GRADE;
                     Message message = new Message();
                     message.DATETIME = DateTime.Now;
                     message.MESSAGE_TEXT = messageText;
                     message.STUDENT_ID = student.ID;
-                    dozorDatabase.InsertMessage(message);
-                }
-            }                  
+                    message.MESSAGE_PRIORITY = 1;
+                    res &= dozorDatabase.InsertMessage(message);
+                }   
+            }
+            if(res)
+            {
+                return Json("Сообщение успешно сохранено", JsonRequestBehavior.AllowGet);
+            }
+            return Json("Ошибка при выполнения запроса", JsonRequestBehavior.AllowGet);
         }
     }
 }

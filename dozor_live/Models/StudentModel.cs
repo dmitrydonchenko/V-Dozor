@@ -28,12 +28,12 @@ namespace dozor_live.Models
             {
                 if (AttendanceIsIn)
                 {
-                    return "Добро пожаловать, " + FirstName + " " +
-                               "Вход выполнен " + AttendanceDateTime.ToShortTimeString();
+                    return "Добро пожаловать, " + FirstName + "                " +
+                               "Вход в" + AttendanceDateTime.ToShortTimeString();
                 }
                 else
                 {
-                    return "До свидания, " + FirstName + " " +
+                    return "До свидания, " + FirstName + "                " +
                                "Выход в " + AttendanceDateTime.ToShortTimeString();
                 }
             }

@@ -24,10 +24,7 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
-                <RowDefinition Height="9*"/>
             </Grid.RowDefinitions>
-            
-            <Label Content="{Binding Student1.Greeting}" Grid.Column="0" Grid.Row="0" TextBlock.FontSize="24"/>     
             
             <GroupBox Grid.Column="0" Grid.Row="1">
                 <Image  Source="{Binding Snapshot1}">
@@ -39,7 +36,6 @@
                 </Image>
             </GroupBox>
 
-            <Label Content="{Binding Student2.Greeting}" Grid.Column="1" Grid.Row="0" TextBlock.FontSize="24"/>
         </Grid>
         
         <Grid Grid.Row="1">
@@ -50,23 +46,24 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="5*"/>
             </Grid.RowDefinitions>
-            <GroupBox Grid.Column="0" Grid.Row="0">
+            <GroupBox Header="{Binding Student1.Greeting}" Grid.Column="0" Grid.Row="0" TextBlock.FontSize="20">
                 <DataGrid x:Name="student1MessagesDataGrid"
                           ItemsSource="{Binding Student1.Messages}"
                           AutoGenerateColumns="False"
                           CanUserAddRows="False">
                     <DataGrid.Columns> 
-                        <DataGridTextColumn Header="Текст сообщения" Binding="{Binding MessageText}" TextBlock.FontSize="18" Width="1*"></DataGridTextColumn>
+                        <DataGridTextColumn Binding="{Binding MessageText}" TextBlock.FontSize="18" Width="1*"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>
-            <GroupBox Grid.Column="1" Grid.Row="0">
-                <DataGrid x:Name="student2MessagesDataGrid"
+            <GroupBox Header="{Binding Student2.Greeting}" Grid.Column="1" Grid.Row="0"  TextBlock.FontSize="20">
+                <DataGrid x:Name="student2MessagesDataGrid"                          
                           ItemsSource="{Binding Student2.Messages}"
                           AutoGenerateColumns="False"
                           CanUserAddRows="False">
+                    <DataGridTemplateColumn SortMemberPath="MessagePriority" SortDirection="Descending" CanUserSort="False"/>
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Текст сообщения" Binding="{Binding MessageText}" TextBlock.FontSize="18" Width="1*"></DataGridTextColumn>
+                        <DataGridTextColumn Binding="{Binding MessageText}" TextBlock.FontSize="18" Width="1*"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>

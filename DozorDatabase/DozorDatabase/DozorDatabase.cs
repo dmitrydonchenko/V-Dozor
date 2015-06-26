@@ -137,6 +137,25 @@ namespace DozorDatabaseLib
         }
 
         /// <summary>
+        /// Returns messages by date
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public IEnumerable<Message> GetMessagesByDate(DateTime dateTime)
+        {
+            IEnumerable<Message> allMessages = (IEnumerable<Message>)GetRecordsFromTable(DatabaseConstants.MESSAGES_TABLE);
+            List<Message> messagesByDate = new List<Message>();
+            foreach (Message message in allMessages)
+            {
+                if (message.DATETIME.Year == dateTime.Year && message.DATETIME.Month == dateTime.Month && message.DATETIME.Day == dateTime.Day)
+                {
+                    messagesByDate.Add(message);
+                }
+            }
+            return messagesByDate;
+        }
+
+        /// <summary>
         /// Returns messages relevant to specified student
         /// </summary>
         /// <param name="_StudentId">Student Id</param>
@@ -459,7 +478,7 @@ namespace DozorDatabaseLib
                 if (i < fieldsList.Count() - 1)
                     sqlQuery += " " + operations[i] + " ";
             }
-            IEnumerable<dynamic> tableCollection = null;
+            IEnumerable<dynamic> tableCollection = new List<dynamic>();
             try
             {
                 connection.Open();

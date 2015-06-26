@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DozorWeb.BundleConfig">
+    <Position X="10.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\BundleConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorWeb.FilterConfig" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\FilterConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorWeb.RouteConfig">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\RouteConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorWeb.MvcApplication">
+    <Position X="10.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Global.asax.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorWeb.Controllers.AttendanceController">
+    <Position X="0.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIACAAAAAAAAAAAAAAAAgAAAAAAAAAEgA=</HashCode>
+      <FileName>Controllers\AttendanceController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorWeb.Controllers.HomeController">
+    <Position X="2.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEACAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\HomeController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorWeb.Controllers.MessageController">
+    <Position X="4.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABCAAACAAAAAAAAAAAAAAAAAAAAAgEAA=</HashCode>
+      <FileName>Controllers\MessageController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorWeb.Models.AttendanceModel">
+    <Position X="3" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAACAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AttendanceModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorWeb.Models.AttendanciesPageViewModel">
+    <Position X="0.5" Y="2.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAIAAgAAAAQAAAAAAAAAAgAQAAAAAAgABAAAAAEAAAA=</HashCode>
+      <FileName>Models\AttendanciesPageViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorWeb.Models.GradeModel">
+    <Position X="4.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAEAAAA=</HashCode>
+      <FileName>Models\GradeModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorWeb.Models.MessageSendingViewModel">
+    <Position X="6.25" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAIAQgAAAAQAACCAAAAAAAAQAAAAAAAAAAgAAAEAAQA=</HashCode>
+      <FileName>Models\MessageSendingViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorWeb.Models.StudentModel">
+    <Position X="1.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Models\StudentModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DozorWeb.Models.SubgroupModel">
+    <Position X="6.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\SubgroupModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

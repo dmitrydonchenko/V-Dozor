@@ -14,6 +14,7 @@ namespace DozorDatabaseLib.DataClasses
         public DateTime DATETIME { get; set; }
         public DateTime EXPIRATION_DATETIME { get; set; }
         public Int32 SENDER_ID { get; set; }
+        public Int32 MESSAGE_PRIORITY { get; set; }
 
         public override string FieldsString
         {
@@ -24,7 +25,8 @@ namespace DozorDatabaseLib.DataClasses
                        DatabaseConstants.MESSAGES_TABLE_MESSAGE_AUDIO + "," +
                        DatabaseConstants.MESSAGES_TABLE_DATETIME + "," +
                        DatabaseConstants.MESSAGES_TABLE_EXPIRATION_DATETIME + "," +
-                       DatabaseConstants.MESSAGES_TABLE_SENDER_ID; 
+                       DatabaseConstants.MESSAGES_TABLE_SENDER_ID + "," +
+                       DatabaseConstants.MESSAGES_TABLE_MESSAGE_PRIORITY; 
             }
         }
 
@@ -32,12 +34,13 @@ namespace DozorDatabaseLib.DataClasses
         {
             get
             {
-                return "@STUDENT_ID," + 
-                       "@MESSAGE_TEXT," + 
-                       "@MESSAGE_AUDIO," + 
-                       "@DATETIME," + 
-                       "@EXPIRATION_DATETIME," + 
-                       "@SENDER_ID";
+                return "@STUDENT_ID," +
+                       "@MESSAGE_TEXT," +
+                       "@MESSAGE_AUDIO," +
+                       "@DATETIME," +
+                       "@EXPIRATION_DATETIME," +
+                       "@SENDER_ID," +
+                       "@MESSAGE_PRIORITY";
             }
         }
 
@@ -50,7 +53,8 @@ namespace DozorDatabaseLib.DataClasses
                                                          new Tuple<string, object>("MESSAGE_AUDIO", MESSAGE_AUDIO),
                                                          new Tuple<string, object>("DATETIME", DATETIME),
                                                          new Tuple<string, object>("EXPIRATION_DATETIME", EXPIRATION_DATETIME),
-                                                         new Tuple<string, object>("SENDER_ID", SENDER_ID)};
+                                                         new Tuple<string, object>("SENDER_ID", SENDER_ID),
+                                                         new Tuple<string, object>("MESSAGE_PRIORITY", MESSAGE_PRIORITY)};
             }
         }
     }

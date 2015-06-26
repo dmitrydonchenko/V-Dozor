@@ -173,7 +173,7 @@ namespace dozor_live.ViewModels
             List<MessageModel> messagesModel = new List<MessageModel>();
             foreach (Message m in studentMessages)
             {
-                MessageModel curMessage = new MessageModel(m.MESSAGE_TEXT);
+                MessageModel curMessage = new MessageModel(m.MESSAGE_TEXT, m.MESSAGE_PRIORITY);
                 messagesModel.Add(curMessage);
             }
             Students[curStudentIndex].Messages = messagesModel;

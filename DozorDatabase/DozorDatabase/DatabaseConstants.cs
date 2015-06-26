@@ -48,6 +48,7 @@ namespace DozorDatabaseLib
         public static String MESSAGES_TABLE_DATETIME = "DATETIME";
         public static String MESSAGES_TABLE_EXPIRATION_DATETIME = "EXPIRATION_DATETIME";
         public static String MESSAGES_TABLE_SENDER_ID = "SENDER_ID";
+        public static String MESSAGES_TABLE_MESSAGE_PRIORITY = "MESSAGE_PRIORITY";
 
         #endregion
 

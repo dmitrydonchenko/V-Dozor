@@ -49,10 +49,13 @@
         $.ajax({
             url: '/Message/SendMessage',
             type: "GET",
-            dataType: "JSON",
+            dataType: "JSON",           
             data: { gradeId: gradeId, subgroupId: subgroupId, studentId : studentId, messageText : messageText },
-            success: function (students) {
-                
+            success: function (response) {
+                alert('Сообщение успешно сохранено');
+            },
+            error: function (response) {
+                alert('Введены некорректные данные');
             }
         });
     }
