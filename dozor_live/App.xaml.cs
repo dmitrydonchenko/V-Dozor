@@ -39,19 +39,36 @@ namespace dozor_live
             connectString.UserID = "SYSDBA";
             connectString.Password = "masterkey";
             connectString.Charset = "win1251";
-            DozorDatabase.CreateInstance(connectString.ConnectionString);
-
-            // Set camera
-            webcamCapture = new WebcamCapture();
+            DozorDatabase.CreateInstance(connectString.ConnectionString);            
 
             // Generate messages
             DozorDatabase dozorDatabase = DozorDatabase.Instance;
             String [] courses = new String [5]{ "Математика", "Русский язык", "Физика", "История", "Физ-ра" };
 
             DateTime now = DateTime.Now;
-            var messages = dozorDatabase.GetMessagesByDate(now);
+            // Delete old messages
+            var messages = dozorDatabase.GetAllMessages();
+            if (messages == null)
+                return;
+            foreach (Message message in messages)
+            {
+                if (message.EXPIRATION_DATETIME < DateTime.Now)
+                {
+                    dozorDatabase.DeleteMessageById(message.ID);
+                }
+            }
+            messages = dozorDatabase.GetMessagesByDate(now);
+            Boolean hasLessonMessage = false;
+            foreach(Message message in messages)
+            {
+                if(message.MESSAGE_PRIORITY == 3)
+                {
+                    hasLessonMessage = true;
+                    break;
+                }
+            }
             Random rand = new Random();
-            if(messages.Count() == 0)
+            if(messages.Count() == 0 || !hasLessonMessage)
             {
                 var grades = dozorDatabase.GetAllGrades();
                 foreach (Grade grade in grades)
@@ -64,12 +81,20 @@ namespace dozor_live
                         Message message = new Message();
                         message.MESSAGE_TEXT = "1-й урок - " + courses[index] + " в каб. №" + classroom.ToString();
                         message.DATETIME = DateTime.Now;
+                        DateTime expirationDateTime = DateTime.Now;
+                        expirationDateTime.AddHours(23 - expirationDateTime.Hour);
+                        expirationDateTime.AddMinutes(59 - expirationDateTime.Minute);
+                        message.EXPIRATION_DATETIME = expirationDateTime;
                         message.STUDENT_ID = student.ID;
                         message.MESSAGE_PRIORITY = 3;
+                        message.MESSAGE_SHOW_DIRECTION = 1;
                         dozorDatabase.InsertMessage(message);
                     }
                 }
-            }            
+            }
+
+            // Set camera
+            webcamCapture = new WebcamCapture();
 
             // Start Usb Service
             currentRfid = "";

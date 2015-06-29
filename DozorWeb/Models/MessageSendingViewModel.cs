@@ -13,17 +13,24 @@ namespace DozorWeb.Models
         public Int32 SelectedGradeId { get; set; }
         public Int32 SelectedSubgroupId { get; set; }
         public Int32 SelectedStudentId { get; set; }
+        public String SelectedMessageShowDirection { get; set; }
+
         public String MessageText { get; set; }
+        public String MessageExpirationDateTme { get; set; }
 
         public SelectList Grades { get; set; }
         public SelectList Students { get; set; }
         public SelectList Subgroups { get; set; }
+        public SelectList MessageShowDirections { get; set; }
 
         public MessageSendingViewModel()
         {
+            List<String> messageShowDirections = new List<String> { "Всегда", "На входе", "На выходе" };
+            MessageShowDirections = new SelectList(messageShowDirections, SelectedMessageShowDirection);
             SelectedGradeId = -1;
             SelectedStudentId = -1;
             SelectedSubgroupId = -1;
+            SelectedMessageShowDirection = "Всегда";
         }
 
         public SelectList GetAllGrades()

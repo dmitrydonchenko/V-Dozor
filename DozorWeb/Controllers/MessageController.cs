@@ -81,12 +81,23 @@ namespace DozorWeb.Controllers
             return jsonResult;
         }
 
-        public JsonResult SendMessage(int gradeId, int subgroupId, int studentId, String messageText)
+        public JsonResult SendMessage(int gradeId, int subgroupId, int studentId, String messageText, DateTime messageExpirationDateTme, String selectedMessageShowDirection)
         {
             if (messageText == null || (gradeId == -1 && studentId == -1 && subgroupId == -1))
                 return Json("Выберите адресата сообщения", JsonRequestBehavior.AllowGet);           
             DozorDatabase dozorDatabase = DozorDatabase.Instance;
             Boolean res = true;
+            if(messageExpirationDateTme == null)
+            {
+                messageExpirationDateTme = DateTime.Now;                
+            }
+            messageExpirationDateTme = messageExpirationDateTme.AddHours(23 - messageExpirationDateTme.Hour);
+            messageExpirationDateTme = messageExpirationDateTme.AddMinutes(59 - messageExpirationDateTme.Minute);
+            int showDirection = 0;
+            if (selectedMessageShowDirection == "На входе")
+                showDirection = 1;
+            else if (selectedMessageShowDirection == "На выходе")
+                showDirection = 2;
             if(studentId != -1)
             {
                 Message message = new Message();
@@ -94,6 +105,8 @@ namespace DozorWeb.Controllers
                 message.MESSAGE_TEXT = messageText;
                 message.STUDENT_ID = studentId;
                 message.MESSAGE_PRIORITY = 2;
+                message.EXPIRATION_DATETIME = messageExpirationDateTme;
+                message.MESSAGE_SHOW_DIRECTION = showDirection;
                 res &= dozorDatabase.InsertMessage(message);
             }
             else if(subgroupId != -1)
@@ -106,6 +119,8 @@ namespace DozorWeb.Controllers
                     message.MESSAGE_TEXT = messageText;
                     message.STUDENT_ID = student.ID;
                     message.MESSAGE_PRIORITY = 1;
+                    message.EXPIRATION_DATETIME = messageExpirationDateTme;
+                    message.MESSAGE_SHOW_DIRECTION = showDirection;
                     res &= dozorDatabase.InsertMessage(message);
                 }
             }
@@ -123,6 +138,8 @@ namespace DozorWeb.Controllers
                     message.MESSAGE_TEXT = messageText;
                     message.STUDENT_ID = student.ID;
                     message.MESSAGE_PRIORITY = 1;
+                    message.EXPIRATION_DATETIME = messageExpirationDateTme;
+                    message.MESSAGE_SHOW_DIRECTION = showDirection;
                     res &= dozorDatabase.InsertMessage(message);
                 }   
             }

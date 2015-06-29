@@ -4,6 +4,8 @@
     ViewBag.Title = "Страница сообщений";
 }
 
+@section Scripts
+{
 <script>
     function FillSubgroups() {
         var gradeId = $('#SelectedGradeId').val();
@@ -41,16 +43,27 @@
         });
     }
 
+    $(function () {
+        $('.datepicker').datepicker();
+    });
+
     function SendMessage() {
         var gradeId = $('#SelectedGradeId').val();
         var subgroupId = $('#SelectedSubgroupId').val();
         var studentId = $('#SelectedStudentId').val();
         var messageText = $('#MessageText').val();
+        var messageExpirationDateTme = $('#MessageExpirationDateTme').datepicker({ dateFormat: 'mm-dd-yy' }).val();
+        var selectedMessageShowDirection = $('#SelectedMessageShowDirection').val();
         $.ajax({
             url: '/Message/SendMessage',
             type: "GET",
             dataType: "JSON",           
-            data: { gradeId: gradeId, subgroupId: subgroupId, studentId : studentId, messageText : messageText },
+            data: {
+                gradeId: gradeId, subgroupId: subgroupId,
+                studentId: studentId, messageText: messageText,
+                messageExpirationDateTme: messageExpirationDateTme,
+                selectedMessageShowDirection: selectedMessageShowDirection
+            },
             success: function (response) {
                 alert('Сообщение успешно сохранено');
             },
@@ -60,6 +73,7 @@
         });
     }
 </script>
+}
 
 <h3>Отправка сообщений</h3>
 
@@ -113,13 +127,39 @@
     <br />
 </div>
 
+<div class="form-group input-group-sm">
+    <br />
+    @Html.Label("Дата, до которой сообщение актуально:", new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.TextBoxFor(m => m.MessageExpirationDateTme, new { @class = "form-control datepicker", placeholder = "Введите дату здесь..." })
+        @Html.ValidationMessageFor(model => model.MessageExpirationDateTme)
+    </div>
+    <br />
+</div> 
+
+<div class="form-group">
+    <br />
+    @Html.Label("Показывать сообщение:", new { @class = "control-label col-md-2" })
+    <br>
+    <div class="col-md-10">
+        @Html.DropDownListFor(m => m.SelectedMessageShowDirection,
+                        Model.MessageShowDirections,
+                        new
+                        {
+                            @class = "form-control"
+                        })
+        @Html.ValidationMessageFor(m => m.SelectedMessageShowDirection, "", new { @class = "text-danger" })
+    </div>
+    <br />
+</div>
+
 <div>
-    Текст сообщения:
+    <br />
+    @Html.Label("Текст сообщения:", new { @class = "control-label col-md-2" })
     <br />
     @Html.TextArea("MessageText", "", 5, 100, new { @class = "message-area" })
     <br />
 </div>
-
 
 <div class="col-md-10">
     <br />

@@ -167,18 +167,24 @@ namespace dozor_live.ViewModels
 
             // Setting StudentModel           
             Students[curStudentIndex] = new StudentModel(currentStudent.FIRST_NAME);
+            Students[curStudentIndex].AttendanceDateTime = currentDateTime;
+            Students[curStudentIndex].AttendanceIsIn = isIn;
             IEnumerable<Message> studentMessages = dozorDatabase.GetStudentMessages(currentStudent.ID, currentStudent.GRADE_ID);
 
             // Setting MessagesModel
             List<MessageModel> messagesModel = new List<MessageModel>();
             foreach (Message m in studentMessages)
             {
-                MessageModel curMessage = new MessageModel(m.MESSAGE_TEXT, m.MESSAGE_PRIORITY);
-                messagesModel.Add(curMessage);
+                if((m.MESSAGE_SHOW_DIRECTION == 1 && Students[curStudentIndex].AttendanceIsIn) || 
+                   (m.MESSAGE_SHOW_DIRECTION == 2 && !Students[curStudentIndex].AttendanceIsIn) ||
+                    m.MESSAGE_SHOW_DIRECTION == 0)
+                {
+                    MessageModel curMessage = new MessageModel(m.MESSAGE_TEXT, m.MESSAGE_PRIORITY);
+                    messagesModel.Add(curMessage);
+                }        
             }
-            Students[curStudentIndex].Messages = messagesModel;
-            Students[curStudentIndex].AttendanceDateTime = currentDateTime;
-            Students[curStudentIndex].AttendanceIsIn = isIn;
+            messagesModel.Sort((x, y) => Math.Min(x.MessagePriority, y.MessagePriority));
+            Students[curStudentIndex].Messages = messagesModel;            
 
             Student1 = Students[0];
             Student2 = Students[1];

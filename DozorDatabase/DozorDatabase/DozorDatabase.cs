@@ -47,7 +47,7 @@ namespace DozorDatabaseLib
         {
             if (instance == null)
             {
-                instance = new DozorDatabase(connectionString);
+                instance = new DozorDatabase(connectionString);                
             }
         }
 
@@ -134,6 +134,15 @@ namespace DozorDatabaseLib
         public IEnumerable<Grade> GetAllGrades()
         {
             return (IEnumerable<Grade>) GetRecordsFromTable(DatabaseConstants.GRADES_TABLE);
+        }
+
+        /// <summary>
+        /// Get all messages
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Message> GetAllMessages()
+        {
+            return (IEnumerable<Message>)GetRecordsFromTable(DatabaseConstants.MESSAGES_TABLE);
         }
 
         /// <summary>
@@ -432,6 +441,16 @@ namespace DozorDatabaseLib
         public Boolean DeleteSubgroupStudentByStudentId(int studentId)
         {
             return DeleteRecords(DatabaseConstants.STUDENTS_SUBGROUPS_TABLE, new Tuple<string, object>(DatabaseConstants.STUDENTS_SUBGROUPS_TABLE_STUDENT_ID, studentId));
+        }
+
+        /// <summary>
+        /// Delete message by id
+        /// </summary>
+        /// <param name="messageId"></param>
+        /// <returns></returns>
+        public Boolean DeleteMessageById(int messageId)
+        {
+            return DeleteRecords(DatabaseConstants.MESSAGES_TABLE, new Tuple<string, object>(DatabaseConstants.MESSAGES_TABLE_ID, messageId));
         }
 
         #endregion
