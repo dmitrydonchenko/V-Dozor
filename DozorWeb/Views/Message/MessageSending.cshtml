@@ -77,11 +77,12 @@
 
 <h3>Отправка сообщений</h3>
 
-<div class="form-group">
-    <br />
-    @Html.Label("Класс", new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        @Html.DropDownListFor(m => m.SelectedGradeId,
+<div class="row">
+    <div class="form-group">
+        <br />
+        @Html.Label("Класс", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.SelectedGradeId,
                                 Model.Grades,
                                 "Выберите класс",
                                 new
@@ -89,16 +90,16 @@
                                     @class = "form-control",
                                     @onchange = "FillSubgroups()"
                                 })
-        @Html.ValidationMessageFor(m => m.SelectedGradeId, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(m => m.SelectedGradeId, "", new { @class = "text-danger" })
+        </div>
+        <br />
     </div>
-    <br />
-</div>
 
-<div class="form-group">
-    <br />
-    @Html.Label("Подгруппа", new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        @Html.DropDownListFor(m => m.SelectedSubgroupId,
+    <div class="form-group">
+        <br />
+        @Html.Label("Подгруппа", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.SelectedSubgroupId,
                                    Model.Subgroups,
                               "Выберите подгруппу",
                               new
@@ -106,62 +107,63 @@
                                   @class = "form-control",
                                   @onchange = "FillStudents()"
                               })
-        @Html.ValidationMessageFor(m => m.SelectedSubgroupId, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(m => m.SelectedSubgroupId, "", new { @class = "text-danger" })
+        </div>
+        <br />
     </div>
-    <br />
-</div>
 
-<div class="form-group">
-    @Html.Label("Студент", new { @class = "control-label col-md-2" })
-    <br>
-    <div class="col-md-10">
-        @Html.DropDownListFor(m => m.SelectedStudentId,
+    <div class="form-group">
+        @Html.Label("Студент", new { @class = "control-label col-md-2" })
+        <br>
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.SelectedStudentId,
                         Model.Students,
                         "Выберите студента",
                         new
                         {
                             @class = "form-control"
                         })
-        @Html.ValidationMessageFor(m => m.SelectedStudentId, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(m => m.SelectedStudentId, "", new { @class = "text-danger" })
+        </div>
+        <br />
     </div>
-    <br />
-</div>
 
-<div class="form-group input-group-sm">
-    <br />
-    @Html.Label("Дата, до которой сообщение актуально:", new { @class = "control-label col-md-2" })
-    <div class="col-md-10">
-        @Html.TextBoxFor(m => m.MessageExpirationDateTme, new { @class = "form-control datepicker", placeholder = "Введите дату здесь..." })
-        @Html.ValidationMessageFor(model => model.MessageExpirationDateTme)
+    <div class="form-group input-group-sm">
+        <br />
+        @Html.Label("Дата, до которой сообщение актуально:", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.MessageExpirationDateTme, new { @class = "form-control datepicker", placeholder = "Введите дату здесь..." })
+            @Html.ValidationMessageFor(model => model.MessageExpirationDateTme)
+        </div>
+        <br />
     </div>
-    <br />
-</div> 
 
-<div class="form-group">
-    <br />
-    @Html.Label("Показывать сообщение:", new { @class = "control-label col-md-2" })
-    <br>
-    <div class="col-md-10">
-        @Html.DropDownListFor(m => m.SelectedMessageShowDirection,
+    <div class="form-group">
+        <br />
+        @Html.Label("Показывать сообщение:", new { @class = "control-label col-md-2" })
+        <br>
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.SelectedMessageShowDirection,
                         Model.MessageShowDirections,
                         new
                         {
                             @class = "form-control"
                         })
-        @Html.ValidationMessageFor(m => m.SelectedMessageShowDirection, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(m => m.SelectedMessageShowDirection, "", new { @class = "text-danger" })
+        </div>
+        <br />
     </div>
-    <br />
-</div>
 
-<div>
-    <br />
-    @Html.Label("Текст сообщения:", new { @class = "control-label col-md-2" })
-    <br />
-    @Html.TextArea("MessageText", "", 5, 100, new { @class = "message-area" })
-    <br />
-</div>
+    <div>
+        <br />
+        @Html.Label("Текст сообщения:", new { @class = "control-label col-md-2" })
+        <br />
+        @Html.TextArea("MessageText", "", 5, 100, new { @class = "message-area" })
+        <br />
+    </div>
 
-<div class="col-md-10">
-    <br />
-    <button name="submitButton" class="btn btn-primary" value="submit" onclick="javascript:SendMessage();">Отправить сообщение</button>
+    <div class="col-md-4">
+        <br />
+        <button name="submitButton" class="btn btn-primary" value="submit" onclick="javascript:SendMessage();">Отправить сообщение</button>
+    </div>
 </div>
