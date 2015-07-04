@@ -110,7 +110,7 @@ namespace dozor_live.ViewModels
         private DateTime currentDateTime;
         private Student currentStudent;
 
-        private Dictionary<Int32, Int32> receivers;
+        private Dictionary<Int32, Int32> receivers;        
 
         #endregion
 
@@ -183,7 +183,7 @@ namespace dozor_live.ViewModels
                     messagesModel.Add(curMessage);
                 }        
             }
-            messagesModel.Sort((x, y) => Math.Min(x.MessagePriority, y.MessagePriority));
+            messagesModel.Sort((x, y) => y.MessagePriority.CompareTo(x.MessagePriority));
             Students[curStudentIndex].Messages = messagesModel;            
 
             Student1 = Students[0];

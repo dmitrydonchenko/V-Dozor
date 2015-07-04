@@ -28,6 +28,8 @@ namespace dozor_live
         private RfidReader rfidReader;
         WebcamCapture webcamCapture;
 
+        private DateTime lastReadTime;
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -116,19 +118,24 @@ namespace dozor_live
 
         private void RfidReceived(object sender, RfidReaderEventArgs args)
         {
-            if (currentRfid != args.Rfid)
+            if(currentRfid == args.Rfid)
             {
-                currentRfid = args.Rfid;                
-                if(ApplicationViewModel.AppContext.CurrentPageViewModel.Name != "StudentsViewModel")
+                if((DateTime.Now - lastReadTime).TotalSeconds < 3)
                 {
-                    StudentsViewModel svm = new StudentsViewModel(args, webcamCapture.Capture(), DateTime.Now);
-                    ApplicationViewModel.AppContext.CurrentPageViewModel = svm;
-                }
-                else
-                {
-                    ((StudentsViewModel)ApplicationViewModel.AppContext.CurrentPageViewModel).AddNewStudent(args, webcamCapture.Capture(), DateTime.Now);
+                    return;
                 }
             }
+            currentRfid = args.Rfid;
+            lastReadTime = DateTime.Now;
+            if (ApplicationViewModel.AppContext.CurrentPageViewModel.Name != "StudentsViewModel")
+            {
+                StudentsViewModel svm = new StudentsViewModel(args, webcamCapture.Capture(), DateTime.Now);
+                ApplicationViewModel.AppContext.CurrentPageViewModel = svm;
+            }
+            else
+            {
+                ((StudentsViewModel)ApplicationViewModel.AppContext.CurrentPageViewModel).AddNewStudent(args, webcamCapture.Capture(), DateTime.Now);
+            }            
         }
     }
 }

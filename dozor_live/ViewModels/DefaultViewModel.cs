@@ -12,7 +12,7 @@ namespace dozor_live.ViewModels
         {
             get
             {
-                return "Поднесите метку ко считывателю";
+                return "Поднесите карту к любому считывателю";
             }
         }
     }

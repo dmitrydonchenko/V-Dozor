@@ -53,6 +53,8 @@ namespace DozorDbManagement.ViewModels
             }
         }
 
+        private ObservableCollection<Double> afd;
+
         private ObservableCollection<StudentModel> students;
         public ObservableCollection<StudentModel> Students
         {
