@@ -27,12 +27,12 @@
             </Grid.RowDefinitions>
             
             <GroupBox Grid.Column="0" Grid.Row="1">
-                <Image  Source="{Binding Snapshot1}">
+                <Image  Source="{Binding Snapshot1, IsAsync=True}">
                 </Image>
             </GroupBox>
 
             <GroupBox Grid.Column="1" Grid.Row="1">
-                <Image  Source="{Binding Snapshot2}">
+                <Image  Source="{Binding Snapshot2, IsAsync=True}">
                 </Image>
             </GroupBox>
 

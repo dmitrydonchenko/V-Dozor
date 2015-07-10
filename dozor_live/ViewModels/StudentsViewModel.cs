@@ -1,4 +1,5 @@
 ﻿using dozor_live.Models;
+using dozor_live.Properties;
 using DozorDatabaseLib;
 using DozorDatabaseLib.DataClasses;
 using DozorMediaLib.Video;
@@ -11,6 +12,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
