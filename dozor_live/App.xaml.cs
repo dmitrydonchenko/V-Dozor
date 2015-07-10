@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -35,13 +36,22 @@ namespace dozor_live
             base.OnStartup(e);
 
             // Create Database instance "D:\\Votum\\DozorDatabase\\Students.fdbB;"
+            string appDataFolder = Environment.GetFolderPath
+                      (Environment.SpecialFolder.CommonApplicationData);
+            string dvAppDataFolder = appDataFolder + @"\DozorDatabase";
+            AppDomain.CurrentDomain.SetData("DataDirectory", dvAppDataFolder);
+
+            if (!Directory.Exists(dvAppDataFolder))
+                Directory.CreateDirectory(dvAppDataFolder);
+            String databasePath = dvAppDataFolder + @"\Students.fdb";
             FbConnectionStringBuilder connectString = new FbConnectionStringBuilder();
-            connectString.Database = "D:\\Votum\\DozorDatabase\\Students.fdb";
+            connectString.Database = databasePath;
+            //connectString.Database = "D:\\Votum\\DozorDatabase\\Students.fdb";
             connectString.Dialect = 3;
             connectString.UserID = "SYSDBA";
             connectString.Password = "masterkey";
             connectString.Charset = "win1251";
-            DozorDatabase.CreateInstance(connectString.ConnectionString);            
+            DozorDatabase.CreateInstance(connectString.ConnectionString);  
 
             // Generate messages
             DozorDatabase dozorDatabase = DozorDatabase.Instance;
